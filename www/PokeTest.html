@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .Absolute-Center {
+              height: 95%;
+              overflow: auto;
+              margin: auto;
+              position: absolute;
+              top: 0; left: 0; bottom: 0; right: 0;
+              border-style: dashed;
+            }
+            
+            .Absolute-Center.fixed-image {
+              z-index: 999;
+            }
+
+            .Absolute-Center.fixed-image img { 
+              height: 85%;
+            }
+            
+            .box{
+                border:1px solid black;
+                position:absolute;
+                width:20px;
+                height:20px;
+                left:20%;
+                top: 20%;
+            }
+            
+        </style>
+    </head>
+
+    <body>
+        <div class="Absolute-Center">
+                <img src="PokedexBackground.png" class="Absolute-Center fixed-image" />
+        </div>
+    </body>
+
+</html>
