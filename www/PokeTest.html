@@ -1,40 +1,54 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <style>
-            .Absolute-Center {
-              height: 95%;
-              overflow: auto;
-              margin: auto;
-              position: absolute;
-              top: 0; left: 0; bottom: 0; right: 0;
-              border-style: dashed;
-            }
-            
-            .Absolute-Center.fixed-image {
-              z-index: 999;
-            }
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Pokedex</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-            .Absolute-Center.fixed-image img { 
-              height: 85%;
-            }
-            
-            .box{
-                border:1px solid black;
-                position:absolute;
-                width:20px;
-                height:20px;
-                left:20%;
-                top: 20%;
-            }
-            
-        </style>
-    </head>
+<body>
+  <div id="pokedex">
+  <div id="left">
+    <div id="logo"></div>
+    <div id="bg_curve1_left"></div>
+    <div id="bg_curve2_left"></div>
+    <div id="curve1_left">
+      <div id="buttonGlass">
+        <div id="reflect"> </div>
+      </div>
+      <div id="miniButtonGlass1"></div>
+      <div id="miniButtonGlass2"></div>
+      <div id="miniButtonGlass3"></div>
+    </div>
+    <div id="curve2_left">
+      <div id="junction">
+        <div id="junction1"></div>
+        <div id="junction2"></div>
+      </div>
+    </div>
+    <div id="screen">
+      <div id="topPicture">
+        <div id="buttontopPicture1"></div>
+        <div id="buttontopPicture2"></div>
+      </div>
+      <div id="picture">
 
-    <body>
-        <div class="Absolute-Center">
-                <img src="PokedexBackground.png" class="Absolute-Center fixed-image" />
-        </div>
-    </body>
+      </div>
+    </div>
+  </div>
+  <div id="right">
+    <div id="bg_curve1_right"></div>
+    <div id="bg_curve2_right"></div>
+    <div id="curve1_right"></div>
+    <div id="curve2_right"></div>
+        <div id="screen">
+      <div id="topPicture">
+      </div>
+      <div id="picture2">
 
+      </div>
+    </div>
+  </div>
+</div>
+</body>
 </html>
