@@ -18,16 +18,6 @@ QueryApi <- function(query) {
   return(data)
 }
 
-GetPokemonName <- function(id) {
-  data <- QueryApi(paste0("pokemon/", id))
-  cat(paste(id, data$name, "\n"))
-  return(capitalize(data$name))
-}
-
-ids <- 501:721
-names <- sapply(ids, GetPokemonName)
-write.csv(names, file = "pokenames4.csv", row.names = FALSE)
-
 # Builds a dataframe representing a pokemons stats for use with ggplot
 # Takes in a dataset from a pokemon query to the API
 BuildStatRadar <- function(data) {
