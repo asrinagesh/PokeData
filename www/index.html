@@ -17,11 +17,10 @@
     <div id="bg_curve1_left"></div>
     <div id="bg_curve2_left">
                 <div id="search_bar">
-<!--                  <label>Pokemon Name</label>-->
 <!--                  <input id="pokemon" type="text" class="form-control" autocomplete="off" value="Pikachu"/>-->
                 <span class="input input--chisato">
-					<input id="pokemon" class="input__field input__field--chisato debug" type="text" id="input-13" />
-					<label class="input__label input__label--chisato debug" for="input-13">
+					<input id="pokemon" class="input__field input__field--chisato" type="text" id="input-13" onfocusout="if(this.value != '') { this.value = ''; }"/>
+					<label class="input__label input__label--chisato" for="input-13">
 						<span class="input__label-content input__label-content--chisato" data-content="Pokemon Name">Pokemon Name</span>
 					</label>
 				</span>
