@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>CSS Pokedex</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="input.css">
   <script src="shared/jquery.js" type="text/javascript"></script>
   <script src="shared/shiny.js" type="text/javascript"></script>
   <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
@@ -16,7 +17,14 @@
     <div id="bg_curve1_left"></div>
     <div id="bg_curve2_left">
                 <div id="search_bar">
-                  <input id="pokemon" type="text" class="form-control" value="pikachu"/>
+<!--                  <label>Pokemon Name</label>-->
+<!--                  <input id="pokemon" type="text" class="form-control" autocomplete="off" value="Pikachu"/>-->
+                <span class="input input--chisato">
+					<input class="input__field input__field--chisato" type="text" id="input-13" />
+					<label class="input__label input__label--chisato" for="input-13">
+						<span class="input__label-content input__label-content--chisato" data-content="Pokemon Name">Pokemon Name</span>
+					</label>
+				</span>
                 </div>
     </div>
     <div id="curve1_left">

@@ -82,13 +82,25 @@
     
     div#search_bar
     {
-        border: dashed;
+/*        border: dashed;*/
         position: absolute;
         right: calc(11*1.7%);
         height: calc(25*1.7px);
         width: calc(133*1.7px);
         z-index: 10000;
     }
+    
+    label
+    {
+        font-family: PokemonGB;
+        color: white;
+    }
+    
+    input {
+        font-family: PokemonGB;
+        color: white;
+    }
+
 
 	div#curve2_left
 	{

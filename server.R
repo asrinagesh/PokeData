@@ -24,10 +24,6 @@ GetPokemonName <- function(id) {
   return(capitalize(data$name))
 }
 
-ids <- 501:721
-names <- sapply(ids, GetPokemonName)
-write.csv(names, file = "pokenames4.csv", row.names = FALSE)
-
 # Builds a dataframe representing a pokemons stats for use with ggplot
 # Takes in a dataset from a pokemon query to the API
 BuildStatRadar <- function(data) {
@@ -46,7 +42,7 @@ BuildStatRadar <- function(data) {
   stat.radar.df <- data.frame(Pokemon, "Special Defense" = spd$Value,"Speed" = speed$Value, "Health" = hp$Value,
                               "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, check.names = FALSE)
   
-  # use external script to plot the data  
+  # use external script to plot the data
   stat.radar.df <- stat.radar.df %>%
     mutate_each(funs(. / max.stat), -Pokemon)
   return(stat.radar.df)
