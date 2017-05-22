@@ -288,10 +288,9 @@
     
     div#avatar
     {
-        background-color: #000;
         height: calc(110*1.7px);
         width: calc(110*1.7px);
-        margin: calc(10*1.2px);
+        /*margin: calc(10*1.2px);*/
         
     }
   

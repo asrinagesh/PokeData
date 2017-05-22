@@ -8,6 +8,9 @@
 #
 
 library(shiny)
+library(httr)
+library(jsonlite)
+library(plotly)
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
@@ -24,7 +27,8 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
        plotlyOutput("plot"),
-       verbatimTextOutput("pokedata")
+       verbatimTextOutput("pokedata"),
+       imageOutput("image")       
     )
   )
 ))
