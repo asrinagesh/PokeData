@@ -7,7 +7,6 @@ library(ggplot2)
 library(scales)
 source("./assets/scripts/ggradar.R")
 
-# devtools::install_github("ricardo-bion/ggradar", dependencies=TRUE)
 max.stat <- 150
 base.uri <- "http://pokeapi.co/api/v2/"
 
@@ -18,6 +17,16 @@ QueryApi <- function(query) {
   data <- fromJSON(content(response, "text", encoding = "UTF-8"))
   return(data)
 }
+
+GetPokemonName <- function(id) {
+  data <- QueryApi(paste0("pokemon/", id))
+  cat(paste(id, data$name, "\n"))
+  return(capitalize(data$name))
+}
+
+ids <- 501:721
+names <- sapply(ids, GetPokemonName)
+write.csv(names, file = "pokenames4.csv", row.names = FALSE)
 
 # Builds a dataframe representing a pokemons stats for use with ggplot
 # Takes in a dataset from a pokemon query to the API
@@ -36,8 +45,8 @@ BuildStatRadar <- function(data) {
   Pokemon <- capitalize(data$name)
   stat.radar.df <- data.frame(Pokemon, "Special Defense" = spd$Value,"Speed" = speed$Value, "Health" = hp$Value,
                               "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, check.names = FALSE)
-
-  # use external script to plot the data  
+  
+  # use external script to plot the data  
   stat.radar.df <- stat.radar.df %>%
     mutate_each(funs(. / max.stat), -Pokemon)
   return(stat.radar.df)
