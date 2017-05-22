@@ -28,7 +28,8 @@ shinyUI(fluidPage(
     mainPanel(
        plotlyOutput("plot"),
        verbatimTextOutput("pokedata"),
-       imageOutput("image")       
+       imageOutput("image"),   
+       plotOutput("radar")
     )
   )
 ))

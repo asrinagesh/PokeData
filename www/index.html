@@ -16,7 +16,9 @@
     <div id="logo"></div>
     <div id="bg_curve1_left"></div>
     <div id="bg_curve2_left">
-                <div id="search_bar"></div>
+                <div id="search_bar">
+                  <input id="pokemon" type="text" class="form-control" value="pikachu"/>
+                </div>
     </div>
     <div id="curve1_left">
       <div id="buttonGlass">
@@ -42,10 +44,10 @@
           <div id="image" class="shiny-image-output" style="width: 100% ; height: 100%"></div>
         </div>
         <div id="pokeinfo">
-            <!-- Pokemon Basic Data Here -->
+            <pre id="pokedata" class="shiny-text-output noplaceholder"></pre>
         </div>
         <div id="radar_chart">
-            <!-- Radar Chart Here -->
+            <div id="radar" class="shiny-plot-output" style="width: 100% ; height: 400px"></div>
         </div>
       </div>
     </div>
