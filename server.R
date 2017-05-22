@@ -78,7 +78,7 @@ shinyServer(function(input, output) {
   output$image <- renderImage({
     data <- QueryApi(paste0("pokemon/", input$pokemon))
     
-    filename <- normalizePath(file.path('./www/imgs/sprites/', paste0(data$id, '.png')))
+    filename <- normalizePath(file.path('./www/assets/imgs/sprites/', paste0(data$id, '.png')))
     
     list(src = filename,
          width = 187,
