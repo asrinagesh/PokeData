@@ -57,12 +57,12 @@ shinyServer(function(input, output) {
   output$pokedata <- renderPrint({
     pokemon.df <- pokemon.df()
     cat(paste0("ID: ", pokemon.df$id,"\n"))
-    cat(paste0("Name: ", pokemon.df$name,"\n"))
+    cat(paste0("Name: ", capitalize(pokemon.df$name),"\n"))
     cat(paste0("Base XP: ", pokemon.df$base_experience,"\n"))
     cat(paste0("Height: ", pokemon.df$height,"\n"))
     cat(paste0("Weight: ", pokemon.df$weight,"\n"))
     cat(paste0("Type(s): "))
-    cat(pokemon.df$types$type$name)
+    cat(capitalize(pokemon.df$types$type$name))
   })
   
   output$plot <- renderPlotly({

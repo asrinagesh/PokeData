@@ -3,6 +3,10 @@
 	padding: 0;
 }
 
+.debug {
+  border: dashed;
+}
+
 @font-face {
     font-family: 'PokeGB';
     src: url('./assets/fonts/PokemonGB.tff') format('truetype'),
@@ -82,7 +86,6 @@
     
     div#search_bar
     {
-/*        border: dashed;*/
         position: absolute;
         right: calc(11*1.7%);
         height: calc(25*1.7px);
@@ -315,7 +318,6 @@
     
     div#avatar
     {
-        border: dashed;
         display: inline-block;
         height: calc(110*1.7px);
         width: calc(110*1.7px);
@@ -325,7 +327,6 @@
     div#pokeinfo
     {
         font-family: 'PokeGB';
-        border: dashed;
         display: inline-block;
         float: right;
         height: calc(110*1.7px);
@@ -349,7 +350,6 @@
     
     div#radar_chart
     {
-        border: dashed;
         height: 66%;
         width: 99%;
         overflow: hidden;

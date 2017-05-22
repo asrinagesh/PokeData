@@ -274,7 +274,7 @@ ggradar <- function(plot.data,
     base <- base + ggtitle(plot.title)
   }
   
-  base <- base + theme(plot.margin=unit(c(0,1,1.5,1),"cm"))
+  base <- base + theme(plot.margin=unit(c(0,1.1,1.5,1.1),"cm"))
   
   return(base)
   
