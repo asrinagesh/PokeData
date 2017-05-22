@@ -3,7 +3,12 @@
 	padding: 0;
 }
 
-
+@font-face {
+    font-family: 'PokeGB';
+    src: url('./assets/fonts/PokemonGB.tff') format('truetype'),
+         url('./assets/fonts/PokemonGB.woff') format('truetype'),
+         url('./assets/fonts/PokemonGB.woff2') format('truetype');
+}
 
 @media all {
 
@@ -307,12 +312,27 @@
     
     div#pokeinfo
     {
+        font-family: 'PokeGB';
         border: dashed;
         display: inline-block;
         float: right;
         height: calc(110*1.7px);
-        width: calc(110*1.7px);
+        width: calc(160*1.7px);
+        text-align: center;
         /*margin: calc(10*1.2px);*/
+    }
+    
+    pre#pokedata
+    {
+        font-family: 'PokeGB';
+        font-size: 13px; 
+        line-height: 18px;
+        display: inline-block;
+        padding-top: 40px;
+        padding-left: 10px;
+        text-align: left;
+        white-space: pre-wrap;
+        width: 100%;
     }
     
     div#radar_chart
@@ -320,6 +340,7 @@
         border: dashed;
         height: 64%;
         width: 99%;
+        overflow: hidden;
         
         border-radius: 0px 0px 15px 15px;
 		-webkit-border-radius: 0px 0px 15px 15px;
@@ -453,7 +474,7 @@
 	{
 		width: calc(281*1.7px);
 		height: calc(99*1.7px);
-        background: url('./imgs/logo/back_logo.png') no-repeat;
+        background: url('./assets/imgs/logo/back_logo.png') no-repeat;
         background-size: 420px 150px;
 		z-index: 1;
 

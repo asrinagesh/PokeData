@@ -46,7 +46,7 @@ BuildStatRadar <- function(data) {
   stat.radar.df <- data.frame(Pokemon, "Special Defense" = spd$Value,"Speed" = speed$Value, "Health" = hp$Value,
                               "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, check.names = FALSE)
   
-  # use external script to plot the data  
+  # use external script to plot the data
   stat.radar.df <- stat.radar.df %>%
     mutate_each(funs(. / max.stat), -Pokemon)
   return(stat.radar.df)
