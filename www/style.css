@@ -299,8 +299,8 @@
 
 	div#picture
 	{
-		height: calc(330*1.7px);
-		width: calc(278*1.7px);
+		height: calc(342*1.7px);
+		width: calc(265*1.7px);
 		margin-top: 20px;
 		margin-bottom: calc(9*1.7px);
 		background-color: #fff;
@@ -329,7 +329,7 @@
         display: inline-block;
         float: right;
         height: calc(110*1.7px);
-        width: calc(160*1.7px);
+        width: calc(150*1.7px);
         text-align: center;
         /*margin: calc(10*1.2px);*/
     }
@@ -350,7 +350,7 @@
     div#radar_chart
     {
         border: dashed;
-        height: 64%;
+        height: 66%;
         width: 99%;
         overflow: hidden;
         
@@ -362,8 +362,8 @@
   
     div#picture2
 	{
-		height: calc(340*1.7px);
-		width: calc(278*1.7px);
+		height: calc(345*1.7px);
+		width: calc(265*1.7px);
 		margin-top: calc(10*1.7px);
 		margin-bottom: calc(9*1.7px);
 		background-color: #fff;
@@ -392,6 +392,7 @@
 	{
 		height: calc(8*1.7px);
 		width: calc(8*1.7px);
+        margin-bottom: 4px;
 		background-color: #c00d0d;
 		border: 1px solid #000;
 		float: left;
