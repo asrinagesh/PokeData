@@ -74,6 +74,16 @@
 		-moz-border-top-left-radius: 30px;
 		-o-border-top-left-radius: 30px;
 	}
+    
+    div#search_bar
+    {
+        border: dashed;
+        position: absolute;
+        right: calc(11*1.7%);
+        height: calc(25*1.7px);
+        width: calc(133*1.7px);
+        z-index: 10000;
+    }
 
 	div#curve2_left
 	{
@@ -288,10 +298,33 @@
     
     div#avatar
     {
+        border: dashed;
+        display: inline-block;
         height: calc(110*1.7px);
         width: calc(110*1.7px);
         /*margin: calc(10*1.2px);*/
+    }
+    
+    div#pokeinfo
+    {
+        border: dashed;
+        display: inline-block;
+        float: right;
+        height: calc(110*1.7px);
+        width: calc(110*1.7px);
+        /*margin: calc(10*1.2px);*/
+    }
+    
+    div#radar_chart
+    {
+        border: dashed;
+        height: 64%;
+        width: 99%;
         
+        border-radius: 0px 0px 15px 15px;
+		-webkit-border-radius: 0px 0px 15px 15px;
+		-moz-border-radius: 0px 0px 15px 15px;
+		-o-border-radius: 0px 0px 15px 15px;
     }
   
     div#picture2
@@ -420,11 +453,13 @@
 	{
 		width: calc(281*1.7px);
 		height: calc(99*1.7px);
+        background: url('./imgs/logo/back_logo.png') no-repeat;
+        background-size: 420px 150px;
 		z-index: 1;
 
 		position: absolute;
 		top: calc(220*1.7px);
-		left: calc(30*1.7px);
+		left: calc(47*1.7px);
 	}
 
 	div#left
@@ -464,6 +499,10 @@
 		-moz-border-top-left-radius: 30px;
 		-o-border-top-left-radius: 30px;
 	}
+    
+    div#search_bar {
+        display: none;
+    }
 
 	div#bg_curve1_left
 	{
@@ -485,7 +524,7 @@
     div#junction
 	{
 		width: calc(60*1.7px);
-		height: calc(458*1.7px);
+		height: calc(455*1.7px);
 		float: right;
         border: 1px solid #000;
 		
