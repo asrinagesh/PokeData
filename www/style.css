@@ -9,14 +9,14 @@
 
 	div#pokedex
 	{
-		width: 750px;
-		margin: 50px auto 0 auto;
+		width: calc(750*1.7px);
+		margin: calc(50*1.0px) auto 0 auto;
 	}
 
 	div#left
 	{
-		width: 400px;
-		height: 500px;
+		width: calc(400*1.7px);
+		height: calc(500*1.7px);
 		float: left;
 		position: relative;
 		z-index: 1;
@@ -24,8 +24,8 @@
 
 	div#right
 	{
-		width: 350px;
-		height: 500px;
+		width: calc(350*1.7px);
+		height: calc(500*1.7px);
 		float: left;
 		position: relative;
 	}
@@ -36,11 +36,11 @@
 
 	div#curve1_left
 	{
-		width: 201px;
-		height: 85px;
+		width: calc(201*1.7px);
+		height: calc(85*1.7px);
 		background-color: #d44432;
 		float: left;
-		padding: 15px 0 0 15px;
+		padding: calc(15*1.7px) 0 0 calc(15*1.7px);
 
 		position: absolute;
 		top: 0;
@@ -65,8 +65,8 @@
 
 	div#bg_curve1_left
 	{
-		width: 400px;
-		height: 80px;
+		width: calc(400*1.7px);
+		height: calc(80*1.7px);
 		background-color: #d44432;
         
 		border-top-left-radius: 30px;
@@ -77,8 +77,8 @@
 
 	div#curve2_left
 	{
-		width: 216px;
-		height: 451px;
+		width: calc(216*1.7px);
+		height: calc(451*1.7px);
 		background-color: #d44432;
 		float: right;
 
@@ -94,8 +94,8 @@
 
 	div#bg_curve2_left
 	{
-		width: 400px;
-		height: 420px;
+		width: calc(400*1.7px);
+		height: calc(420*1.7px);
 		background-color: #d44432;
 
 		box-shadow: -10px 9px #82271c;
@@ -111,9 +111,9 @@
 
 	div#buttonGlass
 	{
-		width: 60px;
-		height: 60px;
-		margin-right: 15px;
+		width: calc(60*1.7px);
+		height: calc(60*1.7px);
+		margin-right: calc(15*1.7px);
 		border: 5px solid #FFF;
 		float: left;
 
@@ -135,9 +135,9 @@
 
 	div#reflect
 	{
-		width: 30px;
-		height: 18px;
-		margin: 3px 0 0 15px;
+		width: calc(30*1.7px);
+		height: calc(18*1.7px);
+		margin: calc(3*1.7px) 0 0 calc(15*1.7px);
 		background: #FFF;
 		opacity: 0.6;
 
@@ -150,9 +150,9 @@
 
 	div#miniButtonGlass1
 	{
-		width: 20px;
-		height: 20px;
-		margin-right: 10px;
+		width: calc(20*1.7px);
+		height: calc(20*1.7px);
+		margin-right: calc(10*1.7px);
 		float: left;
 
 		box-shadow: 0 0 10px #490000;
@@ -173,9 +173,9 @@
 
 	div#miniButtonGlass2
 	{
-		width: 20px;
-		height: 20px;
-		margin-right: 10px;
+		width: calc(20*1.7px);
+		height: calc(20*1.7px);
+		margin-right: calc(10*1.7px);
 		float: left;
 
 		box-shadow: 0 0 10px #490000;
@@ -196,9 +196,9 @@
 
 	div#miniButtonGlass3
 	{
-		width: 20px;
-		height: 20px;
-		margin-right: 10px;
+		width: calc(20*1.7px);
+		height: calc(20*1.7px);
+		margin-right: calc(10*1.7px);
 		float: left;
 
 		box-shadow: 0 0 10px #490000;
@@ -219,10 +219,10 @@
 
 	div#junction
 	{
-		width: 60px;
-		height: 450px;
+		width: calc(60*1.7px);
+		height: calc(450*1.7px);
 		float: right;
-        border: 1.5px solid black;
+        border: 1.7px solid black;
 		
 		background: linear-gradient(left, #d44432 0%, #c00d0d 50%, #d44432 100%);	
 		background: -webkit-linear-gradient(left, #d44432 0%, #c00d0d 50%, #d44432 100%);
@@ -232,11 +232,11 @@
 
 	div#junction1
 	{
-		height: 40px;
+		height: calc(40*1.7px);
 		background-color: #d44432;
 		opacity: 0.3;
-		margin-top: 50px;
-		margin-bottom: 262px;
+		margin-top: calc(50*1.7px);
+		margin-bottom: calc(262*1.7px);
 
 		border-top: 2px solid #000;
 		border-bottom: 2px solid #000;
@@ -244,7 +244,7 @@
 
 	div#junction2
 	{
-		height: 40px;
+		height: calc(40*1.7px);
 		background-color: #d44432;
 		opacity: 0.3;
 
@@ -254,15 +254,15 @@
 
 	div#screen
 	{
-		height: 365px;
-		width: 285px;
-		padding: 0 10px;
+		height: calc(365*1.7px);
+		width: calc(285*1.7px);
+		padding: calc(0*1.7px) calc(10*1.7px);
 		background-color: #b0b0b0;
 		float:left;
 
 		position: absolute;
-		top: 120px;
-		left: 19px;
+		top: calc(120*1.7px);
+		left: calc(19*1.7px);
 
 		border-radius: 15px;
 		-webkit-border-radius: 15px;
@@ -272,10 +272,10 @@
 
 	div#picture
 	{
-		height: 330px;
-		width: 278px;
+		height: calc(330*1.7px);
+		width: calc(278*1.7px);
 		margin-top: 20px;
-		margin-bottom: 9px;
+		margin-bottom: calc(9*1.7px);
 		background-color: #fff;
 		border: 3px solid #494949;
 		clear: both;
@@ -285,13 +285,22 @@
 		-moz-border-radius: 15px;
 		-o-border-radius: 15px;
 	}
+    
+    div#avatar
+    {
+        background-color: #000;
+        height: calc(110*1.7px);
+        width: calc(110*1.7px);
+        margin: calc(10*1.2px);
+        
+    }
   
-  div#picture2
+    div#picture2
 	{
-		height: 340px;
-		width: 278px;
-		margin-top: 10px;
-		margin-bottom: 9px;
+		height: calc(340*1.7px);
+		width: calc(278*1.7px);
+		margin-top: calc(10*1.7px);
+		margin-bottom: calc(9*1.7px);
 		background-color: #fff;
 		border: 3px solid #494949;
 		clear: both;
@@ -311,13 +320,13 @@
 	div#topPicture
 	{
 		margin: 6px auto;
-		width: 40px;
+		width: calc(40*1.7px);
 	}
 
 	div#buttontopPicture1, div#buttontopPicture2
 	{
-		height: 8px;
-		width: 8px;
+		height: calc(8*1.7px);
+		width: calc(8*1.7px);
 		background-color: #c00d0d;
 		border: 1px solid #000;
 		float: left;
@@ -330,15 +339,15 @@
 
 	div#buttontopPicture1
 	{
-		margin-right: 20px;
+		margin-right: calc(20*1.7px);
 	}
 
 	/* //// RIGHT PART //// */
 
 	div#curve1_right
 	{
-		width: 166px;
-		height: 451px;
+		width: calc(166*1.7px);
+		height: calc(451*1.7px);
 		background-color: #d44432;
 		float: right;
 
@@ -346,29 +355,29 @@
 		bottom: 0;
 		left: 0;
 
-		border-top-right-radius:85px 60px;
-		-webkit-border-right-left-radius: 85px 60px;
-		-moz-border-right-left-radius: 85px 60px;
-		-o-border-right-left-radius: 85px 60px;
+		border-top-right-radius: calc(85*1.7px) calc(60*1.7px);
+		-webkit-border-right-left-radius: calc(85*1.7px) calc(60*1.7px);
+		-moz-border-right-left-radius: calc(85*1.7px) calc(60*1.7px);
+		-o-border-right-left-radius: calc(85*1.7px) calc(60*1.7px);
 	}
 
 
 	div#bg_curve1_right
 	{
-		width: 350px;
-		height: 80px;
+		width: calc(350*1.7px);
+		height: calc(80*1.7px);
 		background-color: #fff;
 
-		border-top-right-radius: 30px;
-		-webkit-border-top-right-radius: 30px;
-		-moz-border-top-right-radius: 30px;
-		-o-border-top-right-radius: 30px;
+		border-top-right-radius: calc(30*1.7px);
+		-webkit-border-top-right-radius: calc(30*1.7px);
+		-moz-border-top-right-radius: calc(30*1.7px);
+		-o-border-top-right-radius: calc(30*1.7px);
 	}
 
 	div#curve2_right
 	{
-		width: 216px;
-		height: 100px;
+		width: calc(216*1.7px);
+		height: calc(100*1.7px);
 		background-color: #fff;
 		float: left;
 
@@ -376,22 +385,22 @@
 		top: 0;
 		right: 0;
 
-		border-bottom-left-radius: 85px 60px;
-		-webkit-border-bottom-left-radius: 85px 60px;
-		-moz-border-bottom-left-radius: 85px 60px;
-		-o-border-bottom-left-radius: 85px 60px;
+		border-bottom-left-radius: calc(85*1.7px) calc(60*1.7px);
+		-webkit-border-bottom-left-radius: calc(85*1.7px) calc(60*1.7px);
+		-moz-border-bottom-left-radius: calc(85*1.7px) calc(60*1.7px);
+		-o-border-bottom-left-radius: calc(85*1.7px) calc(60*1.7px);
 	}
 
 	div#bg_curve2_right
 	{
-		width: 350px;
-		height: 420px;
+		width: calc(350*1.7px);
+		height: calc(420*1.7px);
 		background-color: #d44432;
 
-		border-bottom-right-radius: 30px;
-		-webkit-border-bottom-right-radius: 30px;
-		-moz-border-bottom-right-radius: 30px;
-		-o-border-bottom-right-radius: 30px;
+		border-bottom-right-radius: calc(30*1.7px);
+		-webkit-border-bottom-right-radius: calc(30*1.7px);
+		-moz-border-bottom-right-radius: calc(30*1.7px);
+		-o-border-bottom-right-radius: calc(30*1.7px);
 
 		box-shadow: -10px 9px #82271c;
 		-webkit-box-shadow: -10px 9px #82271c;
@@ -405,25 +414,24 @@
 
 	div#pokedex
 	{
-		width: 400px;
+		width: calc(400*1.7px);
 	}
 
 	div#logo
 	{
-		width: 281px;
-		height: 99px;
-		background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/200653/logo.png') no-repeat left top;
+		width: calc(281*1.7px);
+		height: calc(99*1.7px);
 		z-index: 1;
 
 		position: absolute;
-		top: 220px;
-		left: 30px;
+		top: calc(220*1.7px);
+		left: calc(30*1.7px);
 	}
 
 	div#left
 	{
-		width: 400px;
-		height: 500px;
+		width: calc(400*1.7px);
+		height: calc(500*1.7px);
 		float: left;
 		position: relative;
 		z-index: 1;
@@ -432,8 +440,8 @@
 
 	div#curve1_left
 	{
-		width: 201px;
-		height: 85px;
+		width: calc(201*1.7px);
+		height: calc(85*1.7px);
 		background-color: #d44432;
 		float: left;
 		padding: 15px 0 0 15px;
@@ -460,8 +468,8 @@
 
 	div#bg_curve1_left
 	{
-		width: 400px;
-		height: 80px;
+		width: calc(400*1.7px);
+		height: calc(80*1.7px);
 		background-color: #d44432;
 
 		box-shadow: -10px 9px #82271c;
@@ -477,8 +485,8 @@
     
     div#junction
 	{
-		width: 60px;
-		height: 458px;
+		width: calc(60*1.7px);
+		height: calc(458*1.7px);
 		float: right;
         border: 1px solid #000;
 		
