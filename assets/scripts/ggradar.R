@@ -7,7 +7,7 @@
 
 
 ggradar <- function(plot.data,
-                    font.radar="Arial",
+                    font.radar="PokemonGB",
                     values.radar = c("0", "75", "150"),                       
                     axis.labels=colnames(plot.data)[-1],                             
                     grid.min=0,  #10,
