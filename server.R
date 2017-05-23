@@ -5,6 +5,7 @@ library(plotly)
 suppressPackageStartupMessages(library(dplyr))
 library(ggplot2)
 library(scales)
+library(shinyjs)
 source("./assets/scripts/ggradar.R")
 
 max.stat <- 150
@@ -50,6 +51,8 @@ capitalize <- function(word) {
   
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
+  useShinyjs(html = TRUE)
+  
   pokemon.df <- reactive({
     pokemon.df <- QueryApi(paste0("pokemon/", input$pokemon))    
   })
@@ -64,7 +67,7 @@ shinyServer(function(input, output) {
     cat(paste0("Type(s): "))
     cat(capitalize(pokemon.df$types$type$name))
   })
-  
+
   output$plot <- renderPlotly({
     pokemon.df <- pokemon.df()
     stat.df <- data.frame(pokemon.df$stats$stat$name, pokemon.df$stats$base_stat)
