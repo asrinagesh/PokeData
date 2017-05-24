@@ -109,7 +109,7 @@ shinyServer(function(input, output) {
   output$location_map <- renderImage({
     pokemon.df <- pokemon.df()
     if(!is.null(pokemon.df$id)){
-      filename <- normalizePath(file.path('./www/assets/imgs/locations', paste0(pokemon.df$id, '.gif')))
+      filename <- normalizePath(file.path('./www/assets/imgs/locations', paste0(capitalize(pokemon.df$name), '.gif')))
       
       if(file.exists(filename)){
         list(src = filename,
