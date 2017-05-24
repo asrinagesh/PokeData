@@ -4,7 +4,7 @@
 }
 
 .debug {
-  border: dashed;
+  /*border: dashed;*/
 }
 
 @font-face {
@@ -341,7 +341,7 @@
         font-size: 13px; 
         line-height: 18px;
         display: inline-block;
-        padding-top: 40px;
+        padding-top: 30px;
         padding-left: 10px;
         text-align: left;
         white-space: pre-wrap;
