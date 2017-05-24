@@ -9,9 +9,6 @@ library(shinyjs)
 source("./assets/scripts/ggradar.R")
 source("./assets/scripts/ApiTools.R")
 
-# max value to display for stats
-max.stat <- 150
-  
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   useShinyjs(html = TRUE)
@@ -63,12 +60,30 @@ shinyServer(function(input, output) {
       spa <- stat.df %>% filter(Stat == "special-attack")
       Pokemon <- capitalize(pokemon.df$name)
       stat.radar.df <- data.frame(Pokemon, "Special Defense" = spd$Value,"Speed" = speed$Value, "Health" = hp$Value,
-                                  "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, check.names = FALSE)
+                                  "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, 
+                                  check.names = FALSE, stringsAsFactors = FALSE)
+      
+      averages <- read.csv(file = "./assets/data/type_averages.csv", stringsAsFactors = FALSE)
+      averages <- averages %>% select("Pokemon" = Primary.Type, "Special Defense" = avg.spd,"Speed" = avg.speed, "Health" = avg.health,
+                                      "Special Attack" = avg.spa, "Attack" = avg.attack, "Defense" = avg.defense) %>% 
+        filter(Pokemon %in% pokemon.df$types$type$name)
+      
+      averages$Pokemon <- paste(capitalize(averages$Pokemon), "avg")
+      
+      binded.df <- rbind(stat.radar.df, averages)
+      
+      pokemon.highest.stat <- max(stat.radar.df$`Special Defense`, stat.radar.df$Speed, stat.radar.df$Health, 
+                                  stat.radar.df$`Special Attack`, stat.radar.df$Attack, stat.radar.df$Defense)
+      
+      max.stat <- 120
+      if(pokemon.highest.stat > max.stat) {
+        max.stat <- pokemon.highest.stat
+      }
       
       # use external script to plot the data
-      stat.radar.df <- stat.radar.df %>%
+      binded.df <- binded.df %>%
         mutate_each(funs(. / max.stat), -Pokemon)
-      ggradar(stat.radar.df)
+      ggradar(binded.df, values.radar = c(0, max.stat/2, max.stat))
     }
   })
   
@@ -89,6 +104,18 @@ shinyServer(function(input, output) {
          height = 187,
          alt = paste("Sprite", pokemon.df$id))
     
+  }, deleteFile = FALSE)
+  
+  output$location_map <- renderImage({
+    pokemon.df <- pokemon.df()
+    if(!is.null(pokemon.df$id)){
+      filename <- normalizePath(file.path('./www/assets/imgs/locations', paste0(pokemon.df$id, '.gif')))
+      
+      if(file.exists(filename)){
+        list(src = filename,
+             alt = paste("Location", pokemon.df$id))
+      }
+    }
   }, deleteFile = FALSE)
   
 })
