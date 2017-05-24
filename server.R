@@ -8,6 +8,9 @@ library(scales)
 library(shinyjs)
 source("./assets/scripts/ggradar.R")
 source("./assets/scripts/ApiTools.R")
+source("./assets/scripts/GenerationAverages.R")
+
+# setwd("~/Documents/School/INFO201/PokeData/")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -106,16 +109,29 @@ shinyServer(function(input, output) {
     
   }, deleteFile = FALSE)
   
+  # Renders an animated gif of a random route this pokemon is found on,
+  # or an error pokemon invalid or not caught through conventional means
   output$location_map <- renderImage({
     pokemon.df <- pokemon.df()
+    
+    # find image name, or display an error if pokemon invalid
+    image.name <- 'error.png'
     if(!is.null(pokemon.df$id)){
-      filename <- normalizePath(file.path('./www/assets/imgs/locations', paste0(capitalize(pokemon.df$name), '.gif')))
-      
-      if(file.exists(filename)){
-        list(src = filename,
-             alt = paste("Location", pokemon.df$id))
-      }
+      image.name <- capitalize(pokemon.df$name)
     }
+    file <- file.path('./www/assets/imgs/locations', paste0(image.name, '.gif'))
+    
+    # if file doesnt exist, pokemon not available through conventional means
+    if(file.exists(file)){ # pokemon found on a route
+        filename <- normalizePath(file)
+    } else { # pokemon is not found on routes
+      file <- file.path('./www/assets/imgs/locations', 'error.png')
+    }
+    filename <- normalizePath(file)
+    
+    # return img tag
+    list(src = filename,
+         alt = paste("Location", pokemon.df$id))
   }, deleteFile = FALSE)
   
 })
