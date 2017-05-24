@@ -7,23 +7,10 @@ library(ggplot2)
 library(scales)
 library(shinyjs)
 source("./assets/scripts/ggradar.R")
+source("./assets/scripts/ApiTools.R")
 
+# max value to display for stats
 max.stat <- 150
-base.uri <- "http://pokeapi.co/api/v2/"
-
-# querys the pokeAPI using the base uri plus a query, such as "pokemon/pikachu"
-QueryApi <- function(query) {
-  full.uri <- paste0(base.uri, query)
-  response <- GET(full.uri)
-  pokemon.df <- fromJSON(content(response, "text", encoding = "UTF-8"))
-  return(pokemon.df)
-}
-
-# Function to make first letter upper case for axis labels
-capitalize <- function(word) {
-  substr(word, 1, 1) <- toupper(substr(word, 1, 1))
-  return (word)
-}
   
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -43,14 +30,15 @@ shinyServer(function(input, output) {
   # its numerial ID, name, base XP, height, weight, and types
   output$pokedata <- renderPrint({
     pokemon.df <- pokemon.df()
-    if("Not found." %in% pokemon.df) {
+    if(is.null(pokemon.df$id)) {
       cat("Pokemon not found. Please try again")
     } else {
       cat(paste0("ID: ", pokemon.df$id,"\n"))
       cat(paste0("Name: ", capitalize(pokemon.df$name),"\n"))
+      cat(paste0("Generation: ", GetGenOfPokemon(pokemon.df$id), "\n"))
       cat(paste0("Base XP: ", pokemon.df$base_experience,"\n"))
-      cat(paste0("Height: ", pokemon.df$height,"\n"))
-      cat(paste0("Weight: ", pokemon.df$weight,"\n"))
+      cat(paste0("Height: ", ConvHeight(pokemon.df$height), " ft", "\n"))
+      cat(paste0("Weight: ", ConvWeight(pokemon.df$weight), " lbs", "\n"))
       cat(paste0("Type(s): "))
       cat(capitalize(pokemon.df$types$type$name))
     }
@@ -60,7 +48,7 @@ shinyServer(function(input, output) {
   # at all if the given pokemon is not found
   output$radar <- renderPlot({
     pokemon.df <- pokemon.df()
-    if(!("Not found." %in% pokemon.df)) {
+    if(!is.null(pokemon.df$id)) {
       
       # get the data we want from the data frame
       stat.df <- data.frame(pokemon.df$stats$stat$name, pokemon.df$stats$base_stat)
@@ -88,7 +76,7 @@ shinyServer(function(input, output) {
   # if the given pokemon is not found
   output$image <- renderImage({
     pokemon.df <- pokemon.df()
-    if("Not found." %in% pokemon.df){
+    if(is.null(pokemon.df$id)){
       image <- "error"
     } else {
       image <- pokemon.df$id
