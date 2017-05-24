@@ -74,18 +74,6 @@ shinyServer(function(input, output) {
       cat(capitalize(pokemon.df$types$type$name))
     }
   })
-
-  output$plot <- renderPlotly({
-    pokemon.df <- pokemon.df()
-    if("Not found." %in% pokemon.df) {
-      cat("Pokemon not found. Please try again")
-    } else {  
-      stat.df <- data.frame(pokemon.df$stats$stat$name, pokemon.df$stats$base_stat)
-      stat.df <- stat.df %>% rename("Stat" = pokemon.df.stats.stat.name, "Value" = pokemon.df.stats.base_stat)
-      
-      plot_ly(type = "bar", data = stat.df, x = ~Stat, y = ~Value) %>% layout(yaxis = list(range = c(0, max.stat)))
-    }
-  })
   
   output$radar <- renderPlot({
     pokemon.df <- pokemon.df()
