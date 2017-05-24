@@ -385,12 +385,13 @@
     
     div#location_map img 
     {
-        border: 4px black;
-        padding-top: calc(20*1.7px);
         vertical-align: middle;
+        margin-top: calc(20*1.7px);
         margin-left: auto;
 	    margin-right: auto;
 	    display: block;
+        border: calc(2*1.7px) solid #494949;
+        border-radius: calc(4*1.7px);
     }
 
 	div#picture img
