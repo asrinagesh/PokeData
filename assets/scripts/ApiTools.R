@@ -24,6 +24,8 @@ capitalize <- function(word) {
 
 # converts a height from decimeters to ft
 ConvHeight <- function(height) {
+  # need to divide by 10 first since conv_unit doesn't
+  # support decimeters
   ft <- conv_unit(height/10, 'm', 'ft')
   return(round(ft, digits = 1))
 }
