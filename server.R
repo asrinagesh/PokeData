@@ -19,30 +19,6 @@ QueryApi <- function(query) {
   return(pokemon.df)
 }
 
-# Builds a dataframe representing a pokemons stats for use with ggplot
-# Takes in a dataset from a pokemon query to the API
-BuildStatRadar <- function(pokemon.df) {
-  # get the data we want from the data frame
-  stat.df <- data.frame(pokemon.df$stats$stat$name, pokemon.df$stats$base_stat)
-  stat.df <- stat.df %>% rename("Stat" = pokemon.df.stats.stat.name, "Value" = pokemon.df.stats.base_stat)
-  
-  # organize the stats in a way that works for ggplot
-  speed <- stat.df %>% filter(Stat == "speed")
-  spd <- stat.df %>% filter(Stat == "special-defense")
-  hp <- stat.df %>% filter(Stat == "hp")
-  defense <- stat.df %>% filter(Stat == "defense")
-  attack <- stat.df %>% filter(Stat == "attack")
-  spa <- stat.df %>% filter(Stat == "special-attack")
-  Pokemon <- capitalize(pokemon.df$name)
-  stat.radar.df <- data.frame(Pokemon, "Special Defense" = spd$Value,"Speed" = speed$Value, "Health" = hp$Value,
-                              "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, check.names = FALSE)
-  
-  # use external script to plot the data
-  stat.radar.df <- stat.radar.df %>%
-    mutate_each(funs(. / max.stat), -Pokemon)
-  return(stat.radar.df)
-}
-
 # Function to make first letter upper case for axis labels
 capitalize <- function(word) {
   substr(word, 1, 1) <- toupper(substr(word, 1, 1))
@@ -53,13 +29,13 @@ capitalize <- function(word) {
 shinyServer(function(input, output) {
   useShinyjs(html = TRUE)
   
+  # Querys the api for the pokemon's data
   pokemon.df <- reactive({
-    # validate(
-    #   need(input$pokemon != "", "Please Select a Pokemon")
-    # )
     pokemon.df <- QueryApi(paste0("pokemon/", tolower(input$pokemon)))    
   })
   
+  # Prints out basic information about this pokemon, such as
+  # its numerial ID, name, base XP, height, weight, and types
   output$pokedata <- renderPrint({
     pokemon.df <- pokemon.df()
     if("Not found." %in% pokemon.df) {
@@ -75,14 +51,36 @@ shinyServer(function(input, output) {
     }
   })
   
+  # Renders the radar chart for a pokemon's stats, or nothing
+  # at all if the given pokemon is not found
   output$radar <- renderPlot({
     pokemon.df <- pokemon.df()
     if(!("Not found." %in% pokemon.df)) {
-      stat.radar.df <- BuildStatRadar(pokemon.df)
+      
+      # get the data we want from the data frame
+      stat.df <- data.frame(pokemon.df$stats$stat$name, pokemon.df$stats$base_stat)
+      stat.df <- stat.df %>% rename("Stat" = pokemon.df.stats.stat.name, "Value" = pokemon.df.stats.base_stat)
+      
+      # organize the stats in a way that works for ggplot
+      speed <- stat.df %>% filter(Stat == "speed")
+      spd <- stat.df %>% filter(Stat == "special-defense")
+      hp <- stat.df %>% filter(Stat == "hp")
+      defense <- stat.df %>% filter(Stat == "defense")
+      attack <- stat.df %>% filter(Stat == "attack")
+      spa <- stat.df %>% filter(Stat == "special-attack")
+      Pokemon <- capitalize(pokemon.df$name)
+      stat.radar.df <- data.frame(Pokemon, "Special Defense" = spd$Value,"Speed" = speed$Value, "Health" = hp$Value,
+                                  "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, check.names = FALSE)
+      
+      # use external script to plot the data
+      stat.radar.df <- stat.radar.df %>%
+        mutate_each(funs(. / max.stat), -Pokemon)
       ggradar(stat.radar.df)
     }
   })
   
+  # Renders the Sprite of the desired pokemon, or an error image
+  # if the given pokemon is not found
   output$image <- renderImage({
     pokemon.df <- pokemon.df()
     if("Not found." %in% pokemon.df){
