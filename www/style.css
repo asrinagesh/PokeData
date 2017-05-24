@@ -7,6 +7,10 @@
   /*border: dashed;*/
 }
 
+body {
+  background-color: #FFFFFF !important;
+}
+
 @font-face {
     font-family: 'PokeGB';
     src: url('./assets/fonts/PokemonGB.tff') format('truetype'),

@@ -37,3 +37,16 @@ ConvWeight <- function(weight) {
   lbs <- conv_unit(weight/10, 'kg', 'lbs')
   return(round(lbs, digits = 1))
 }
+
+# gets the name of a pokemon from its id
+GetPokemonName <- function(id) {
+  data <- QueryApi(paste0("pokemon/", id))
+  cat(paste(id, data$name, "\n"))
+  return(capitalize(data$name))
+}
+
+writeNameData <- function() {
+  ids <- 1:721
+  names <- sapply(ids, GetPokemonName)
+  write.csv(names, file = "pokenames.csv", row.names = FALSE)
+}

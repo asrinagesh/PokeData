@@ -8,7 +8,7 @@
 
 ggradar <- function(plot.data,
                     font.radar="PokemonGB",
-                    values.radar = c("0", "75", "150"),                       
+                    values.radar = c("0", "90", "180"),                       
                     axis.labels=colnames(plot.data)[-1],                             
                     grid.min=0,  #10,
                     grid.mid=0.5,  #50,
@@ -39,7 +39,7 @@ ggradar <- function(plot.data,
                     #plot.legend=if (nrow(plot.data)>1) TRUE else FALSE,
                     legend.title="",
                     plot.title="",
-                    legend.text.size=4 ) {
+                    legend.text.size=10 ) {
   
   library(ggplot2)
   
@@ -261,11 +261,20 @@ ggradar <- function(plot.data,
     centre.y.label <- data.frame(x=0, y=0, text=as.character(centre.y))
     base <- base + geom_text(aes(x=x,y=y,label=text),data=centre.y.label,size=grid.label.size, hjust=0.5, family=font.radar) }
   
+  base <- base + theme(legend.key.width=unit(3,"line")) + theme(text = element_text(size = 20,
+                                                                                    family = font.radar)) +
+    theme(legend.text = element_text(size = legend.text.size), legend.position="top") +
+    theme(legend.key.height=unit(2,"line")) +
+    scale_colour_manual(values=rep(c("#FF5A5F", "#FFB400", "#007A87",  "#8CE071", "#7B0051", 
+                                     "#00D1C1", "#FFAA91", "#B4A76C", "#9CA299", "#565A5C", "#00A04B", "#E54C20"), 100)) +
+    theme(text=element_text(family=font.radar)) + 
+    theme(legend.title=element_blank())
+  
   if (plot.title != "") {
     base <- base + ggtitle(plot.title)
   }
   
-  base <- base + theme(plot.margin=unit(c(0,1.1,1.5,1.1),"cm"))
+  base <- base + theme(plot.margin=unit(c(0, 0.25,0.5,0.25),"cm"))
   
   return(base)
   
