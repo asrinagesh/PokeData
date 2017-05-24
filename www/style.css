@@ -375,6 +375,23 @@
 		-moz-border-radius: 15px;
 		-o-border-radius: 15px;
 	}
+    
+    div#location_map 
+    {
+        height: calc(160*1.7px);
+        width: 100%;
+        /*margin: calc(10*1.2px);*/
+    }
+    
+    div#location_map img 
+    {
+        border: 4px black;
+        padding-top: calc(20*1.7px);
+        vertical-align: middle;
+        margin-left: auto;
+	    margin-right: auto;
+	    display: block;
+    }
 
 	div#picture img
 	{
