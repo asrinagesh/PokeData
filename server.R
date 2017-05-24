@@ -54,37 +54,56 @@ shinyServer(function(input, output) {
   useShinyjs(html = TRUE)
   
   pokemon.df <- reactive({
-    pokemon.df <- QueryApi(paste0("pokemon/", input$pokemon))    
+    # validate(
+    #   need(input$pokemon != "", "Please Select a Pokemon")
+    # )
+    pokemon.df <- QueryApi(paste0("pokemon/", tolower(input$pokemon)))    
   })
   
   output$pokedata <- renderPrint({
     pokemon.df <- pokemon.df()
-    cat(paste0("ID: ", pokemon.df$id,"\n"))
-    cat(paste0("Name: ", capitalize(pokemon.df$name),"\n"))
-    cat(paste0("Base XP: ", pokemon.df$base_experience,"\n"))
-    cat(paste0("Height: ", pokemon.df$height,"\n"))
-    cat(paste0("Weight: ", pokemon.df$weight,"\n"))
-    cat(paste0("Type(s): "))
-    cat(capitalize(pokemon.df$types$type$name))
+    if("Not found." %in% pokemon.df) {
+      cat("Pokemon not found. Please try again")
+    } else {
+      cat(paste0("ID: ", pokemon.df$id,"\n"))
+      cat(paste0("Name: ", capitalize(pokemon.df$name),"\n"))
+      cat(paste0("Base XP: ", pokemon.df$base_experience,"\n"))
+      cat(paste0("Height: ", pokemon.df$height,"\n"))
+      cat(paste0("Weight: ", pokemon.df$weight,"\n"))
+      cat(paste0("Type(s): "))
+      cat(capitalize(pokemon.df$types$type$name))
+    }
   })
 
   output$plot <- renderPlotly({
     pokemon.df <- pokemon.df()
-    stat.df <- data.frame(pokemon.df$stats$stat$name, pokemon.df$stats$base_stat)
-    stat.df <- stat.df %>% rename("Stat" = pokemon.df.stats.stat.name, "Value" = pokemon.df.stats.base_stat)
-    
-    plot_ly(type = "bar", data = stat.df, x = ~Stat, y = ~Value) %>% layout(yaxis = list(range = c(0, max.stat)))
+    if("Not found." %in% pokemon.df) {
+      cat("Pokemon not found. Please try again")
+    } else {  
+      stat.df <- data.frame(pokemon.df$stats$stat$name, pokemon.df$stats$base_stat)
+      stat.df <- stat.df %>% rename("Stat" = pokemon.df.stats.stat.name, "Value" = pokemon.df.stats.base_stat)
+      
+      plot_ly(type = "bar", data = stat.df, x = ~Stat, y = ~Value) %>% layout(yaxis = list(range = c(0, max.stat)))
+    }
   })
   
   output$radar <- renderPlot({
     pokemon.df <- pokemon.df()
-    stat.radar.df <- BuildStatRadar(pokemon.df)
-    ggradar(stat.radar.df)
+    if(!("Not found." %in% pokemon.df)) {
+      stat.radar.df <- BuildStatRadar(pokemon.df)
+      ggradar(stat.radar.df)
+    }
   })
   
   output$image <- renderImage({
     pokemon.df <- pokemon.df()
-    filename <- normalizePath(file.path('./www/assets/imgs/sprites/', paste0(pokemon.df$id, '.png')))
+    if("Not found." %in% pokemon.df){
+      image <- "error"
+    } else {
+      image <- pokemon.df$id
+    }
+    
+    filename <- normalizePath(file.path('./www/assets/imgs/sprites/', paste0(image, '.png')))
     
     list(src = filename,
          width = 187,
