@@ -20,7 +20,7 @@
                 <div id="search_bar">
 <!--                  <input id="pokemon" type="text" class="form-control" autocomplete="off" value="Pikachu"/>-->
                 <span class="input input--chisato">
-					<input id="pokemon" class="input__field input__field--chisato" type="text" value="1" onfocusout="if(this.value != '') { this.value = ''; }"/>
+					<input id="pokemon" class="input__field input__field--chisato" type="text" onfocusout="if(this.value != '') { this.value = ''; }"/>
 					<label class="input__label input__label--chisato" for="input-13">
 						<span class="input__label-content input__label-content--chisato" data-content="Pokemon Name">Pokemon Name</span>
 					</label>
@@ -51,7 +51,7 @@
           <div id="image" class="shiny-image-output debug" style="width: 100% ; height: 100%"></div>
         </div>
         <div id="pokeinfo">
-            <pre id="pokedata" class="shiny-text-output noplaceholder debug">Loading...</pre>
+            <pre id="pokedata" class="shiny-text-output noplaceholder debug"></pre>
         </div>
         <div id="radar_chart">
             <div id="radar" class="shiny-plot-output debug" style="width: 100% ; height: 400px"></div>

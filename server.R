@@ -31,7 +31,12 @@ shinyServer(function(input, output) {
   
   # Querys the api for the pokemon's data
   pokemon.df <- reactive({
-    pokemon.df <- QueryApi(paste0("pokemon/", tolower(input$pokemon)))    
+    if(input$pokemon == "") {
+      pokemon <- "not found"
+    } else {
+      pokemon <- input$pokemon
+    }
+    pokemon.df <- QueryApi(paste0("pokemon/", tolower(pokemon)))    
   })
   
   # Prints out basic information about this pokemon, such as
