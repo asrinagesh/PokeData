@@ -9,7 +9,7 @@ source("./assets/scripts/ggradar.R")
 source("./assets/scripts/ApiTools.R")
 source("./assets/scripts/GenerationAverages.R")
 
-# Charile 
+# Charlie
 # setwd("~/Documents/School/INFO201/PokeData/")
 
 # Akash
