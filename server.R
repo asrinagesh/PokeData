@@ -5,6 +5,12 @@ library(plotly)
 suppressPackageStartupMessages(library(dplyr))
 library(ggplot2)
 library(scales)
+library(RCurl) # install.packages("RCurl") # if the package is not already installed
+library(httr)
+library(audio) 
+library(seewave)
+library(Rtts)
+library(splitstackshape)
 source("./assets/scripts/ggradar.R")
 source("./assets/scripts/ApiTools.R")
 source("./assets/scripts/GenerationAverages.R")
@@ -13,7 +19,7 @@ source("./assets/scripts/GenerationAverages.R")
 # setwd("~/Documents/School/INFO201/PokeData/")
 
 # Akash
-# setwd("~/Work/School/INFO201/PokeData/")
+setwd("~/Work/School/INFO201/PokeData/")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -44,6 +50,14 @@ shinyServer(function(input, output) {
       cat(paste0("Type(s): "))
       cat(capitalize(pokemon.df$types$type$name))
     }
+    pokeinfo.text <- paste0("This is ",capitalize(pokemon.df$name), ". The ", (pokemon.df$types$type$name), " type poki-mon. It is from generation ",
+                         GetGenOfPokemon(pokemon.df$id), ". It is ", ConvHeight(pokemon.df$height), " feet tall and weighs ", 
+                         ConvWeight(pokemon.df$weight), " pounds.")
+    text <- URLencode(pokeinfo.text)
+    voices <- watson.TTS.listvoices()
+    voice <- voices[2,] # 
+    filename <- "temp.wav"
+    watson.TTS.execute(url,text,voice,filename)
   })
   
   output$location_name <- renderPrint({
@@ -55,8 +69,6 @@ shinyServer(function(input, output) {
     } else {
       pokemon.name <- capitalize(pokemon.df$name)
       cat(pokemon.name)
-      pokemon.name <- gsub(" ", "-", pokemon.name)
-      pokemon.name <- gsub(".", "", pokemon.name)
       cat(paste(" can be found in: ", paste0(location.names %>% filter(poke_id == pokemon.name) %>% select(location_name))))
     }
   })
