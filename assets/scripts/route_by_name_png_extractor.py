@@ -13,6 +13,8 @@ from posixpath import basename,dirname
 import ssl
 
 url = 'http://bulbapedia.bulbagarden.net/wiki/List_of_locations_by_name'
+file = open("./images/pokemon_to_route_name.txt","w")
+file.write("poke_id, location_name\n")
 
 def process_url(raw_url):
  if ' ' not in raw_url[-1]:
@@ -50,6 +52,7 @@ for row in table[0].find_all('tr')[1:]:
 big_ass_data = []
 for link in location_name:
     pokemon = set()
+    route_name = link.split('/')[-1].replace('_',' ')
     r = requests.get(link)
     soup = BeautifulSoup(r.text, 'lxml')
     # All the tables on the html page
@@ -71,9 +74,6 @@ for link in location_name:
     map_tr = the_one_and_only.find_all('tr', recursive=False)[-2]
     if map_tr.find('img'):
         img_url = map_tr.find('img').get('src')
-    print(pokemon)
-    print(img_url)
-    print('\n')
 
     # Setting up downloading image
     ctx = ssl.create_default_context()
@@ -88,6 +88,7 @@ for link in location_name:
     except Exception as e:
         print(e)
     for poke in pokemon:
-        output=open("./images/" + poke + ".png",'wb')
-        output.write(imgdata)
-        output.close()
+        file.write(poke + "," + route_name + "\n")
+        # output=open("./images/" + poke + ".png",'wb')
+        # output.write(imgdata)
+        # output.close()

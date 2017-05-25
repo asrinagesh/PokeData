@@ -382,9 +382,17 @@ body {
     
     div#location_map 
     {
-        height: calc(160*1.7px);
+        height: auto;
         width: 100%;
         /*margin: calc(10*1.2px);*/
+    }
+    
+    div#location_name
+    {
+        text-align: center;
+        font-family: PokeGB;
+        font-size: calc(6*1.7px);
+        margin-top: calc(6*1.7px);
     }
     
     div#location_map img 
@@ -392,8 +400,8 @@ body {
         vertical-align: middle;
         margin-top: calc(20*1.7px);
         margin-left: auto;
-	      margin-right: auto;
-	      display: block;
+	    margin-right: auto;
+	    display: block;
         border: calc(2*1.7px) solid #494949;
         border-radius: calc(4*1.7px);
         

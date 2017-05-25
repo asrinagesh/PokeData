@@ -5,17 +5,19 @@ library(plotly)
 suppressPackageStartupMessages(library(dplyr))
 library(ggplot2)
 library(scales)
-library(shinyjs)
 source("./assets/scripts/ggradar.R")
 source("./assets/scripts/ApiTools.R")
 source("./assets/scripts/GenerationAverages.R")
 
+# Charile 
 # setwd("~/Documents/School/INFO201/PokeData/")
+
+# Akash
+# setwd("~/Work/School/INFO201/PokeData/")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-  useShinyjs(html = TRUE)
-  
+
   # Querys the api for the pokemon's data
   pokemon.df <- reactive({
     if(input$pokemon == "") {
@@ -41,6 +43,21 @@ shinyServer(function(input, output) {
       cat(paste0("Weight: ", ConvWeight(pokemon.df$weight), " lbs", "\n"))
       cat(paste0("Type(s): "))
       cat(capitalize(pokemon.df$types$type$name))
+    }
+  })
+  
+  output$location_name <- renderPrint({
+    pokemon.df <- pokemon.df()
+    location.names <- read.csv(file = "./assets/data/pokemon_to_route_name.csv", stringsAsFactors = FALSE)
+    location.names <- location.names[!(duplicated(location.names$poke_id)), ]
+    if(is.null(pokemon.df$id)) {
+      cat("Pokemon not found. Please try again")
+    } else {
+      pokemon.name <- capitalize(pokemon.df$name)
+      cat(pokemon.name)
+      pokemon.name <- gsub(" ", "-", pokemon.name)
+      pokemon.name <- gsub(".", "", pokemon.name)
+      cat(paste(" can be found in: ", paste0(location.names %>% filter(poke_id == pokemon.name) %>% select(location_name))))
     }
   })
   
