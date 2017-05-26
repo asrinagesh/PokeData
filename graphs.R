@@ -3,6 +3,9 @@ library(jsonlite)
 library(httr)
 library(dplyr)
 library(plotly)
+library(RColorBrewer)
+
+setwd('C:/Users/Tu/Desktop/Sophomore Year/Spring/INFO 201/PokeData')
 
 # Read in Data
 data.gen1 <- read.csv(file = './assets/data/gen1data.csv', stringsAsFactors = FALSE)
@@ -52,12 +55,17 @@ m <- list(
   pad = 4
 )
 
+color.pokemons <- c('#208000', '#ffff99', '#ffff1a', '#ff66ff', '#660000', '#e60000', '#d9d9d9', '#290066', 
+                    '#40ff00', '#cc9900', '#b3fff0', '#ffe6cc', '#8000ff', '#db4dff', '#996633', '#ccccff',
+                    '#0099ff')
+
 # chart for popular types (input filter allows for different generation)
 popular.bar.gen1 <- plot_ly(pokemon.df.gen1,
   x = ~Primary.Type,
   y = ~count,
   type = 'bar',
-  color = ~Primary.Type
+  color = ~Primary.Type,
+  colors = color.pokemons
 ) %>% layout(title = 'Pokemon Type Distribution',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Number of Pokemons'),
@@ -263,17 +271,12 @@ stats.bar <- plot_ly(data.stats,
                      x = ~Primary.Type,
                      y = ~avg.all,
                      type = 'bar',
-                     color = ~Primary.Type
+                     color = ~Primary.Type,
+                     colors = ~color.pokemons
 ) %>% layout(title = 'Highest Overall Stats',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Highest Stats'),
              margin = m) 
-
-
-all.pokemons.df <- all.pokemons %>% 
-  filter(id == 1) %>%
-  group_by(Primary.Type) %>%
-  summarise(count = n()) 
 
 ####################################################################
 
@@ -333,3 +336,11 @@ pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
+wh.df <- read.csv(file = './assets/data/weight_and_height.csv', stringsAsFactors = FALSE)
+
+# Merged data between stats and weight/height
+merged.data <- left_join(wh.df, all.pokemons)
+
+scatter <- plot_ly(merged.data, x = ~weight, y = ~Health, color = ~weight,
+                   size = ~weight) %>%
+  layout(title = 'Correlation between the weight of the pokemon and its health')
