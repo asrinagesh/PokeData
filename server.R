@@ -60,7 +60,7 @@ shinyServer(function(input, output) {
     }
   })
   
-  # Renders text for 
+  # Renders text for location pokemon can be found in
   output$location_name <- renderPrint({
     pokemon.df <- pokemon.df()
     location.names <- read.csv(file = "./assets/data/pokemon_to_route_name.csv", stringsAsFactors = FALSE)
