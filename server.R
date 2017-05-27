@@ -19,7 +19,7 @@ source("./assets/scripts/GenerationAverages.R")
 # setwd("~/Documents/School/INFO201/PokeData/")
 
 # Akash
-setwd("~/Work/School/INFO201/PokeData/")
+# setwd("~/Work/School/INFO201/PokeData/")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
@@ -49,15 +49,15 @@ shinyServer(function(input, output) {
       cat(paste0("Weight: ", ConvWeight(pokemon.df$weight), " lbs", "\n"))
       cat(paste0("Type(s): "))
       cat(capitalize(pokemon.df$types$type$name))
+      pokeinfo.text <- paste0("This is ",capitalize(pokemon.df$name), ". The ", (pokemon.df$types$type$name), " type poki-mon. It is from generation ",
+                              GetGenOfPokemon(pokemon.df$id), ". It is ", ConvHeight(pokemon.df$height), " feet tall and weighs ",
+                              ConvWeight(pokemon.df$weight), " pounds.")
+      text <- URLencode(pokeinfo.text)
+      voices <- watson.TTS.listvoices()
+      voice <- voices[2,] #
+      filename <- "temp.wav"
+      watson.TTS.execute(text,voice,filename)
     }
-    pokeinfo.text <- paste0("This is ",capitalize(pokemon.df$name), ". The ", (pokemon.df$types$type$name), " type poki-mon. It is from generation ",
-                         GetGenOfPokemon(pokemon.df$id), ". It is ", ConvHeight(pokemon.df$height), " feet tall and weighs ", 
-                         ConvWeight(pokemon.df$weight), " pounds.")
-    text <- URLencode(pokeinfo.text)
-    voices <- watson.TTS.listvoices()
-    voice <- voices[2,] # 
-    filename <- "temp.wav"
-    watson.TTS.execute(url,text,voice,filename)
   })
   
   output$location_name <- renderPrint({
