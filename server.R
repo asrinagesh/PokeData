@@ -60,13 +60,12 @@ shinyServer(function(input, output) {
     }
   })
   
+  # Renders text for 
   output$location_name <- renderPrint({
     pokemon.df <- pokemon.df()
     location.names <- read.csv(file = "./assets/data/pokemon_to_route_name.csv", stringsAsFactors = FALSE)
     location.names <- location.names[!(duplicated(location.names$poke_id)), ]
-    if(is.null(pokemon.df$id)) {
-      cat("Pokemon not found. Please try again")
-    } else {
+    if(!is.null(pokemon.df$id)) {
       pokemon.name <- capitalize(pokemon.df$name)
       cat(pokemon.name)
       cat(paste(" can be found in: ", paste0(location.names %>% filter(poke_id == pokemon.name) %>% select(location_name))))

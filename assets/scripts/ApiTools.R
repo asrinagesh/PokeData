@@ -8,15 +8,15 @@ library(measurements)
 
 # base uri for api querys
 base.uri <- "http://pokeapi.co/api/v2/"
+
 # TEXT TO SPEECH - AUTHENTICATION AND CREDENTIALS 
 url_TTS <- "https://stream.watsonplatform.net/text-to-speech/api"
 username_TTS <-"dc9068ce-7600-4e59-bf70-03a4679d3f8c" # you need your own - STT service credentials from bluemix
 password_TTS <- "qou3eLqrL4zT"  # you need your own - STT service credentials from bluemix
 username_password_TTS = paste(username_TTS,":",password_TTS,sep="")
 
-########  FUNCTION --- TEXT TO SPEECH
-watson.TTS.execute <- function(text1,voice1,filename1)
-{
+# Text to speech function - TODO document
+watson.TTS.execute <- function(text1,voice1,filename1) {
   api.link=url <- "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
   the_audio = CFILE(filename1, mode="wb") 
   curlPerform(url = paste(api.link,"?text=",text1,"&voice=",voice1,sep=""),
@@ -27,8 +27,8 @@ watson.TTS.execute <- function(text1,voice1,filename1)
   system(paste("open",filename1,"-a vlc"))
 }
 
-watson.TTS.listvoices <- function()
-{
+# Text to speech function - TODO document
+watson.TTS.listvoices <- function() {
   voices <- GET(url=paste("https://stream.watsonplatform.net/text-to-speech/api/v1/voices"),authenticate(username_TTS,password_TTS))
   data <- content(voices,"text")
   data <- as.data.frame(strsplit(as.character(data),"name"))
