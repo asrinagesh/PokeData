@@ -66,7 +66,8 @@ popular.bar.gen1 <- plot_ly(pokemon.df.gen1,
   y = ~count,
   type = 'bar',
   color = ~Primary.Type,
-  colors = color.pokemons
+  colors = color.pokemons,
+  opacity = 0.8
 ) %>% layout(title = 'Pokemon Type Distribution',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Number of Pokemons'),
@@ -106,7 +107,8 @@ popular.bar.gen2 <- plot_ly(pokemon.df.gen2,
                             y = ~count,
                             type = 'bar',
                             color = ~Primary.Type,
-                            colors = color.pokemons
+                            colors = color.pokemons,
+                            opacity = 0.8
 ) %>% layout(title = 'Pokemon Type Distribution',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Number of Pokemons'),
@@ -144,7 +146,8 @@ popular.bar.gen3 <- plot_ly(pokemon.df.gen3,
                             x = ~Primary.Type,
                             y = ~count,
                             type = 'bar',
-                            color = ~Primary.Type
+                            color = ~Primary.Type,
+                            opacity = 0.8
 ) %>% layout(title = 'Pokemon Type Distribution',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Number of Pokemons') ) 
@@ -181,7 +184,8 @@ popular.bar.gen4 <- plot_ly(pokemon.df.gen4,
                             x = ~Primary.Type,
                             y = ~count,
                             type = 'bar',
-                            color = ~Primary.Type
+                            color = ~Primary.Type,
+                            opacity = 0.8
 ) %>% layout(title = 'Pokemon Type Distribution',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Number of Pokemons') ) 
@@ -219,7 +223,8 @@ popular.bar.gen5 <- plot_ly(pokemon.df.gen5,
                             x = ~Primary.Type,
                             y = ~count,
                             type = 'bar',
-                            color = ~Primary.Type
+                            color = ~Primary.Type,
+                            opacity = 0.8
 ) %>% layout(title = 'Pokemon Type Distribution',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Number of Pokemons') ) 
@@ -257,19 +262,20 @@ popular.bar.gen6 <- plot_ly(pokemon.df.gen6,
                             x = ~Primary.Type,
                             y = ~count,
                             type = 'bar',
-                            color = ~Primary.Type
+                            color = ~Primary.Type,
+                            opacity = 0.8
 ) %>% layout(title = 'Pokemon Type Distribution',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Number of Pokemons') ) 
 
 ## STACKED BAR CHART ##
 # Making a stacked bar chart
-stacked.bar <- plot_ly(pokemon.df.gen1, x = ~Primary.Type, y = ~count, type = 'bar', name = 'Gen 1') %>%
-  add_trace(pokemon.df.gen2, x = ~Primary.Type, y = ~count, name = 'Gen 2') %>% 
-  add_trace(pokemon.df.gen3, x = ~Primary.Type, y = ~count, name = 'Gen 3') %>% 
-  add_trace(pokemon.df.gen4, x = ~Primary.Type, y = ~count, name = 'Gen 4') %>% 
-  add_trace(pokemon.df.gen5, x = ~Primary.Type, y = ~count, name = 'Gen 5') %>% 
-  add_trace(pokemon.df.gen6, x = ~Primary.Type, y = ~count, name = 'Gen 6') %>% 
+stacked.bar <- plot_ly(pokemon.df.gen1, x = ~Primary.Type, y = ~count, type = 'bar', name = 'Gen 1', opacity = 0.8) %>%
+  add_trace(pokemon.df.gen2, x = ~Primary.Type, y = ~count, name = 'Gen 2', opacity = 0.8) %>% 
+  add_trace(pokemon.df.gen3, x = ~Primary.Type, y = ~count, name = 'Gen 3', opacity = 0.8) %>% 
+  add_trace(pokemon.df.gen4, x = ~Primary.Type, y = ~count, name = 'Gen 4', opacity = 0.8) %>% 
+  add_trace(pokemon.df.gen5, x = ~Primary.Type, y = ~count, name = 'Gen 5', opacity = 0.8) %>% 
+  add_trace(pokemon.df.gen6, x = ~Primary.Type, y = ~count, name = 'Gen 6', opacity = 0.8) %>% 
   layout(title = 'Pokemon Type Distribution',
          xaxis = list(title = 'Types'),
          yaxis = list(title = 'Number of Pokemons'), barmode = 'stack' , margin = m) 
@@ -284,7 +290,8 @@ stats.bar <- plot_ly(data.stats,
                      y = ~avg.all,
                      type = 'bar',
                      color = ~Primary.Type,
-                     colors = ~color.pokemons
+                     colors = ~color.pokemons,
+                     opacity = 0.7 
 ) %>% layout(title = 'Highest Overall Stats',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Highest Stats'),
@@ -342,8 +349,9 @@ pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
              marker = list(colors = colors,
                            line = list(color = 'black', width = 1)),
              #The 'pull' attribute can also be used to create space between the sectors
-             showlegend = FALSE) %>%
-  layout(title = 'Colors of all Pokemons',
+             showlegend = FALSE,
+             opacity = 0.8) %>%
+  layout(title = 'Colors of Pokemons',
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 #######################################################################################
