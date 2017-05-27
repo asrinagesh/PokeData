@@ -1,4 +1,5 @@
 library(measurements)
+
 # 
 # Utility script with some functions to assist 
 # in querying the PokeApi
@@ -14,10 +15,11 @@ password_TTS <- "qou3eLqrL4zT"  # you need your own - STT service credentials fr
 username_password_TTS = paste(username_TTS,":",password_TTS,sep="")
 
 ########  FUNCTION --- TEXT TO SPEECH
-watson.TTS.execute <- function(url1,text1,voice1,filename1)
+watson.TTS.execute <- function(text1,voice1,filename1)
 {
+  api.link=url <- "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
   the_audio = CFILE(filename1, mode="wb") 
-  curlPerform(url = paste(url1,"?text=",text1,"&voice=",voice1,sep=""),
+  curlPerform(url = paste(api.link,"?text=",text1,"&voice=",voice1,sep=""),
               userpwd = username_password_TTS,
               httpheader=c(accept="audio/wav"),
               writedata = the_audio@ref)

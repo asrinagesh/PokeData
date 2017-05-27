@@ -4,6 +4,7 @@ gen.3 <- 252:386
 gen.4 <- 387:493
 gen.5 <- 494:649
 gen.6 <- 650:721
+all.pokes <- 1:721
 
 # Gets the generation, as a number from 1 to 6, or -1 if 
 # it is a number such that <= 0 or > 721
@@ -50,6 +51,41 @@ GetDataForPokemon <- function(id) {
                     "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, check.names = TRUE))
 }
 
+GetWeightAndHeight <- function(id) {
+  pokemon.df <- QueryApi(paste0("pokemon/", id))
+  id <- pokemon.df$id
+  name <- pokemon.df$name
+  type <- pokemon.df$types$type$name
+  gen <- GetGenOfPokemon(id)
+  weight <- pokemon.df$weight
+  height <- pokemon.df$height
+  df <- data.frame(id, name, gen, "Primary Type" = type, weight, height)
+  return(df)
+}
+
+writeWHData <- function() {
+  data.list <- lapply(all.pokes, GetWeightAndHeight)
+  data.df <- do.call(rbind, data.list)
+  write.csv(data.df, file = "../data/weight_and_height.csv", row.names = FALSE)
+}
+
+
+GetDataForColor <- function(id) {
+  pokemon.df <- QueryApi(paste0("pokemon-species/", id))
+  color <- pokemon.df$color$name
+  return(color)
+}
+
+writeColorData <- function() {
+  color.list <- lapply(all.pokes, GetDataForColor)
+  color.df <- do.call(rbind, color.list)
+  colnames(color.df) <- "color"
+  color.df <- data.frame(color.df)
+  color.df <- color.df %>% 
+    group_by(color) %>%
+    summarise(count = n())
+  write.csv(color.df, file = "../data/color.csv", row.names = FALSE)
+}
 
 writeGenData <- function() {
   gen.1.list <- lapply(gen.1, GetDataForPokemon)
