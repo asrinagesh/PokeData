@@ -1,4 +1,6 @@
 poke_id, location_name
+Squirtle, Kanto Route 24
+Bulbasaur, Kanto Route 24
 Tentacool,Abandoned Ship
 Tentacruel,Abandoned Ship
 Magikarp,Abandoned Ship
@@ -90,7 +92,7 @@ Hypno,Berry Forest
 Exeggcute,Berry Forest
 Pidgeotto,Berry Forest
 Magikarp,Berry Forest
-Deoxys,Birth Island
+Deoxys-normal,Birth Island
 Spinda,Burned Tower
 Raticate,Burned Tower
 Rattata,Burned Tower
@@ -191,7 +193,7 @@ Axew,Connecting Cave
 Zubat,Connecting Cave
 Cresselia,Crescent Isle
 Darumaka,Desert Resort
-Darmanitan,Desert Resort
+Darmanitan-standard,Desert Resort
 Sigilyph,Desert Resort
 Maractus,Desert Resort
 Hippowdon,Desert Resort
@@ -216,9 +218,9 @@ Shieldon,Devon Corporation
 Lileep,Devon Corporation
 Omanyte,Devon Corporation
 Giratina,Distortion World
-Dratini,Dragon%27s Den
-Dragonair,Dragon%27s Den
-Magikarp,Dragon%27s Den
+Dratini,Dragon's Den
+Dragonair,Dragon's Den
+Magikarp,Dragon's Den
 Panpour,Dreamyard
 Liepard,Dreamyard
 Wigglytuff,Dreamyard
@@ -287,7 +289,7 @@ Patrat,Floccesy Ranch
 Poliwag,Floccesy Ranch
 Psyduck,Floccesy Ranch
 Audino,Floccesy Ranch
-Basculin,Floccesy Ranch
+Basculin-red-striped,Floccesy Ranch
 Herdier,Floccesy Ranch
 Poliwhirl,Floccesy Ranch
 Dunsparce,Floccesy Ranch
@@ -334,7 +336,7 @@ Piloswine,Frost Cavern
 Cubchoo,Frost Cavern
 Poliwag,Frost Cavern
 Cryogonal,Frost Cavern
-Basculin,Frost Cavern
+Basculin-red-striped,Frost Cavern
 Poliwhirl,Frost Cavern
 Haunter,Frost Cavern
 Smoochum,Frost Cavern
@@ -543,7 +545,7 @@ Wynaut,Mirage Island (Generation III)
 Tropius,Mirage Islands
 Venomoth,Mirage Islands
 Zebstrika,Mirage Islands
-Darmanitan,Mirage Islands
+Darmanitan-standard,Mirage Islands
 Tangela,Mirage Islands
 Xatu,Mirage Islands
 Pelipper,Mirage Islands
@@ -646,7 +648,7 @@ Beedrill,National Park
 Pidgey,National Park
 Weedle,National Park
 Pinsir,National Park
-Nidoran♀,National Park
+Nidoran-f,National Park
 Ledyba,National Park
 Hoothoot,National Park
 Caterpie,National Park
@@ -664,7 +666,7 @@ Kakuna,National Park
 Sunkern,National Park
 Scyther,National Park
 Krabby,National Park
-Nidoran♂,National Park
+Nidoran-m,National Park
 Venonat,National Park
 Ho-Oh,Navel Rock
 Lugia,Navel Rock
@@ -751,34 +753,34 @@ Anorith,Pewter Museum of Science
 Shieldon,Pewter Museum of Science
 Lileep,Pewter Museum of Science
 Omanyte,Pewter Museum of Science
-Raticate,Pok%C3%A9mon Mansion (Kanto)
-Rattata,Pok%C3%A9mon Mansion (Kanto)
-Growlithe,Pok%C3%A9mon Mansion (Kanto)
-Koffing,Pok%C3%A9mon Mansion (Kanto)
-Weezing,Pok%C3%A9mon Mansion (Kanto)
-Ponyta,Pok%C3%A9mon Mansion (Kanto)
-Muk,Pok%C3%A9mon Mansion (Kanto)
-Grimer,Pok%C3%A9mon Mansion (Kanto)
-Magmar,Pok%C3%A9mon Mansion (Kanto)
-Ditto,Pok%C3%A9mon Mansion (Kanto)
-Vulpix,Pok%C3%A9mon Mansion (Kanto)
-Haunter,Pok%C3%A9mon Tower
-Gastly,Pok%C3%A9mon Tower
-Cubone,Pok%C3%A9mon Tower
-Ghost Marowak,Pok%C3%A9mon Tower
-Lombre,Pok%C3%A9mon Village
-Foongus,Pok%C3%A9mon Village
-Garbodor,Pok%C3%A9mon Village
-Gothorita,Pok%C3%A9mon Village
-Zoroark,Pok%C3%A9mon Village
-Noctowl,Pok%C3%A9mon Village
-Ditto,Pok%C3%A9mon Village
-Poliwag,Pok%C3%A9mon Village
-Amoonguss,Pok%C3%A9mon Village
-Banette,Pok%C3%A9mon Village
-Basculin,Pok%C3%A9mon Village
-Poliwhirl,Pok%C3%A9mon Village
-Jigglypuff,Pok%C3%A9mon Village
+Raticate,Pokemon Mansion (Kanto)
+Rattata,Pokemon Mansion (Kanto)
+Growlithe,Pokemon Mansion (Kanto)
+Koffing,Pokemon Mansion (Kanto)
+Weezing,Pokemon Mansion (Kanto)
+Ponyta,Pokemon Mansion (Kanto)
+Muk,Pokemon Mansion (Kanto)
+Grimer,Pokemon Mansion (Kanto)
+Magmar,Pokemon Mansion (Kanto)
+Ditto,Pokemon Mansion (Kanto)
+Vulpix,Pokemon Mansion (Kanto)
+Haunter,Pokemon Tower
+Gastly,Pokemon Tower
+Cubone,Pokemon Tower
+Ghost Marowak,Pokemon Tower
+Lombre,Pokemon Village
+Foongus,Pokemon Village
+Garbodor,Pokemon Village
+Gothorita,Pokemon Village
+Zoroark,Pokemon Village
+Noctowl,Pokemon Village
+Ditto,Pokemon Village
+Poliwag,Pokemon Village
+Amoonguss,Pokemon Village
+Banette,Pokemon Village
+Basculin-red-striped,Pokemon Village
+Poliwhirl,Pokemon Village
+Jigglypuff,Pokemon Village
 Zapdos,Kanto Power Plant
 Magneton,Kanto Power Plant
 Pikachu,Kanto Power Plant
@@ -901,9 +903,9 @@ Tentacool,Sea Mauville
 Pelipper,Sea Mauville
 Ho-Oh,Sea Mauville
 Magikarp,Sea Mauville
-Moltres,Sea Spirit%27s Den
-Zapdos,Sea Spirit%27s Den
-Articuno,Sea Spirit%27s Den
+Moltres,Sea Spirit's Den
+Zapdos,Sea Spirit's Den
+Articuno,Sea Spirit's Den
 Zubat,Seafloor Cavern
 Tentacruel,Seafloor Cavern
 Graveler,Seafloor Cavern
@@ -967,7 +969,7 @@ Swablu,Sky Pillar
 Mawile,Sky Pillar
 Rayquaza,Sky Pillar
 Ariados,Sky Pillar
-Deoxys,Sky Pillar
+Deoxys-normal,Sky Pillar
 Claydol,Sky Pillar
 Banette,Sky Pillar
 Altaria,Sky Pillar
@@ -1147,7 +1149,7 @@ Noibat,Victory Road (Kalos)
 Poliwag,Victory Road (Kalos)
 Graveler,Victory Road (Kalos)
 Hydreigon,Victory Road (Kalos)
-Basculin,Victory Road (Kalos)
+Basculin-red-striped,Victory Road (Kalos)
 Gurdurr,Victory Road (Kalos)
 Haunter,Victory Road (Kalos)
 Lickitung,Victory Road (Kalos)
@@ -1229,7 +1231,7 @@ Excadrill,Wellspring Cave
 Poliwag,Wellspring Cave
 Roggenrola,Wellspring Cave
 Drilbur,Wellspring Cave
-Basculin,Wellspring Cave
+Basculin-red-striped,Wellspring Cave
 Poliwhirl,Wellspring Cave
 Krabby,Whirl Islands
 Zubat,Whirl Islands
@@ -3205,7 +3207,7 @@ Patrat,Unova Route 1
 Scrafty,Unova Route 1
 Feebas,Unova Route 1
 Stoutland,Unova Route 1
-Basculin,Unova Route 1
+Basculin-red-striped,Unova Route 1
 Dunsparce,Unova Route 1
 Farfetch'd,Unova Route 1
 Purrloin,Unova Route 2
@@ -3249,7 +3251,7 @@ Zebstrika,Unova Route 3
 Illumise,Unova Route 3
 Manectric,Unova Route 3
 Crawdaunt,Unova Route 3
-Basculin,Unova Route 3
+Basculin-red-striped,Unova Route 3
 Seaking,Unova Route 3
 Qwilfish,Unova Route 4
 Scraggy,Unova Route 4
@@ -3306,7 +3308,7 @@ Karrablast,Unova Route 6
 Leavanny,Unova Route 6
 Shelmet,Unova Route 6
 Woobat,Unova Route 6
-Basculin,Unova Route 6
+Basculin-red-striped,Unova Route 6
 Emolga,Unova Route 6
 Audino,Unova Route 7
 Furret,Unova Route 7
@@ -3383,7 +3385,7 @@ Seviper,Unova Route 11
 Karrablast,Unova Route 11
 Rufflet,Unova Route 11
 Pawniard,Unova Route 11
-Basculin,Unova Route 11
+Basculin-red-striped,Unova Route 11
 Seaking,Unova Route 11
 Emolga,Unova Route 11
 Audino,Unova Route 12
@@ -3436,7 +3438,7 @@ Golbat,Unova Route 13
 Frillish,Unova Route 13
 Swellow,Unova Route 13
 Solrock,Unova Route 13
-Basculin,Unova Route 13
+Basculin-red-striped,Unova Route 13
 Emolga,Unova Route 13
 Audino,Unova Route 14
 Altaria,Unova Route 14
@@ -3455,7 +3457,7 @@ Jigglypuff,Unova Route 14
 Buizel,Unova Route 14
 Floatzel,Unova Route 14
 Absol,Unova Route 14
-Basculin,Unova Route 14
+Basculin-red-striped,Unova Route 14
 Seaking,Unova Route 14
 Emolga,Unova Route 14
 Audino,Unova Route 15
@@ -3525,14 +3527,14 @@ Poliwhirl,Unova Route 19
 Poliwag,Unova Route 19
 Politoed,Unova Route 19
 Patrat,Unova Route 19
-Basculin,Unova Route 19
+Basculin-red-striped,Unova Route 19
 Purrloin,Unova Route 20
 Audino,Unova Route 20
 Sunkern,Unova Route 20
 Mr. Mime,Unova Route 20
 Venipede,Unova Route 20
 Azumarill,Unova Route 20
-Basculin,Unova Route 20
+Basculin-red-striped,Unova Route 20
 Poliwag,Unova Route 20
 Poliwhirl,Unova Route 20
 Sudowoodo,Unova Route 20
@@ -3565,7 +3567,7 @@ Delibird,Unova Route 22
 Solrock,Unova Route 22
 Ariados,Unova Route 22
 Marill,Unova Route 22
-Basculin,Unova Route 22
+Basculin-red-striped,Unova Route 22
 Seaking,Unova Route 22
 Emolga,Unova Route 22
 Audino,Unova Route 23
@@ -3589,7 +3591,7 @@ Buizel,Unova Route 23
 Mienshao,Unova Route 23
 Seviper,Unova Route 23
 Rufflet,Unova Route 23
-Basculin,Unova Route 23
+Basculin-red-striped,Unova Route 23
 Emolga,Unova Route 23
 Pidgey,Kalos Route 2
 Bunnelby,Kalos Route 2
@@ -3749,7 +3751,7 @@ Liepard,Kalos Route 15
 Foongus,Kalos Route 15
 Poliwhirl,Kalos Route 15
 Poliwag,Kalos Route 15
-Basculin,Kalos Route 15
+Basculin-red-striped,Kalos Route 15
 Pawniard,Kalos Route 15
 Lombre,Kalos Route 15
 Klefki,Kalos Route 15
@@ -3759,8 +3761,8 @@ Murkrow,Kalos Route 16
 Foongus,Kalos Route 16
 Poliwhirl,Kalos Route 16
 Poliwag,Kalos Route 16
-Basculin,Kalos Route 16
-Pumpkaboo,Kalos Route 16
+Basculin-red-striped,Kalos Route 16
+Pumpkaboo-average,Kalos Route 16
 Weepinbell,Kalos Route 16
 Phantump,Kalos Route 16
 Lombre,Kalos Route 16
@@ -3810,7 +3812,7 @@ Ursaring,Kalos Route 21
 Poliwhirl,Kalos Route 21
 Spinda,Kalos Route 21
 Poliwag,Kalos Route 21
-Basculin,Kalos Route 21
+Basculin-red-striped,Kalos Route 21
 Dragonair,Kalos Route 21
 Scyther,Kalos Route 21
 Lombre,Kalos Route 21
