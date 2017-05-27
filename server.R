@@ -67,8 +67,14 @@ shinyServer(function(input, output) {
     location.names <- location.names[!(duplicated(location.names$poke_id)), ]
     if(!is.null(pokemon.df$id)) {
       pokemon.name <- capitalize(pokemon.df$name)
+      location.title <- location.names %>% filter(poke_id == pokemon.name) %>% select(location_name)
       cat(pokemon.name)
-      cat(paste(" can be found in: ", paste0(location.names %>% filter(poke_id == pokemon.name) %>% select(location_name))))
+      # Checks num rows for greater than one to indicate that Pokemon has a location
+      if (nrow(location.title) == 1) {
+        cat(paste(" can be found in: ", location.title))
+      } else {
+        cat(paste(" cannot be found naturally."))
+      }
     }
   })
   
@@ -97,7 +103,7 @@ shinyServer(function(input, output) {
       averages <- read.csv(file = "./assets/data/type_averages.csv", stringsAsFactors = FALSE)
       averages <- averages %>% select("Pokemon" = Primary.Type, "Special Defense" = avg.spd,"Speed" = avg.speed, "Health" = avg.health,
                                       "Special Attack" = avg.spa, "Attack" = avg.attack, "Defense" = avg.defense) %>% 
-        filter(Pokemon %in% pokemon.df$types$type$name)
+                                      filter(Pokemon %in% pokemon.df$types$type$name)
       
       averages$Pokemon <- paste(capitalize(averages$Pokemon), "avg")
       
