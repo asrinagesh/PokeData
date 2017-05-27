@@ -29,7 +29,6 @@ pokemon.df.gen1 <- data.gen1 %>%
   summarise(count = n()) 
 
 gen1.number <- c(2:151)
-lapply(gen1.number, getTypes)
 
 getTypes <- function(number) {
   new.pokemon.df <- data.gen1 %>%
@@ -46,6 +45,8 @@ getTypes <- function(number) {
   
   pokemon.df.gen1 <<- total # the << to break the scope and to access value in lapply
 }
+
+lapply(gen1.number, getTypes)
 
 m <- list(
   l = 200,
@@ -78,11 +79,12 @@ pokemon.df.gen2 <- data.gen2 %>%
   filter(id == 152) %>%
   group_by(Primary.Type) %>%
   summarise(count = n()) 
-for (i in 153:251) {
-  
-  # new column with the most recent data
+
+gen2.number <- c(153:251)
+
+getTypes <- function(number) {
   new.pokemon.df <- data.gen2 %>%
-    filter(id == i) %>%
+    filter(id == number) %>%
     group_by(Primary.Type) %>%
     summarise(count = n()) 
   
@@ -93,16 +95,18 @@ for (i in 153:251) {
     group_by(Primary.Type) %>%
     summarise(count = sum(count))
   
-  
-  pokemon.df.gen2 <- total
+  pokemon.df.gen2 <<- total # the << to break the scope and to access value in lapply
 }
+
+lapply(gen2.number, getTypes)
 
 # chart for popular types (input filter allows for different generation)
 popular.bar.gen2 <- plot_ly(pokemon.df.gen2,
                             x = ~Primary.Type,
                             y = ~count,
                             type = 'bar',
-                            color = ~Primary.Type
+                            color = ~Primary.Type,
+                            colors = color.pokemons
 ) %>% layout(title = 'Pokemon Type Distribution',
              xaxis = list(title = 'Types'),
              yaxis = list(title = 'Number of Pokemons'),
@@ -114,11 +118,12 @@ pokemon.df.gen3 <- data.gen3 %>%
   filter(id == 252) %>%
   group_by(Primary.Type) %>%
   summarise(count = n()) 
-for (i in 253:386) {
-  
-  # new column with the most recent data
+
+gen3.number <- c(253:386)
+
+getTypes <- function(number) {
   new.pokemon.df <- data.gen3 %>%
-    filter(id == i) %>%
+    filter(id == number) %>%
     group_by(Primary.Type) %>%
     summarise(count = n()) 
   
@@ -129,9 +134,10 @@ for (i in 253:386) {
     group_by(Primary.Type) %>%
     summarise(count = sum(count))
   
-  
-  pokemon.df.gen3 <- total
+  pokemon.df.gen3 <<- total # the << to break the scope and to access value in lapply
 }
+
+lapply(gen3.number, getTypes)
 
 # chart for popular types (input filter allows for different generation)
 popular.bar.gen3 <- plot_ly(pokemon.df.gen3,
@@ -149,11 +155,12 @@ pokemon.df.gen4 <- data.gen4 %>%
   filter(id == 387) %>%
   group_by(Primary.Type) %>%
   summarise(count = n()) 
-for (i in 388:493) {
-  
-  # new column with the most recent data
+
+gen4.number <- c(388:493)
+
+getTypes <- function(number) {
   new.pokemon.df <- data.gen4 %>%
-    filter(id == i) %>%
+    filter(id == number) %>%
     group_by(Primary.Type) %>%
     summarise(count = n()) 
   
@@ -164,9 +171,10 @@ for (i in 388:493) {
     group_by(Primary.Type) %>%
     summarise(count = sum(count))
   
-  
-  pokemon.df.gen4 <- total
+  pokemon.df.gen4 <<- total # the << to break the scope and to access value in lapply
 }
+
+lapply(gen4.number, getTypes)
 
 # chart for popular types (input filter allows for different generation)
 popular.bar.gen4 <- plot_ly(pokemon.df.gen4,
@@ -185,11 +193,12 @@ pokemon.df.gen5 <- data.gen5 %>%
   filter(id == 494) %>%
   group_by(Primary.Type) %>%
   summarise(count = n()) 
-for (i in 495:649) {
-  
-  # new column with the mot recent data
+
+gen5.number <- c(495:649)
+
+getTypes <- function(number) {
   new.pokemon.df <- data.gen5 %>%
-    filter(id == i) %>%
+    filter(id == number) %>%
     group_by(Primary.Type) %>%
     summarise(count = n()) 
   
@@ -200,9 +209,10 @@ for (i in 495:649) {
     group_by(Primary.Type) %>%
     summarise(count = sum(count))
   
-  
-  pokemon.df.gen5 <- total
+  pokemon.df.gen5 <<- total # the << to break the scope and to access value in lapply
 }
+
+lapply(gen5.number, getTypes)
 
 # chart for popular types (input filter allows for different generation)
 popular.bar.gen5 <- plot_ly(pokemon.df.gen5,
@@ -221,11 +231,12 @@ pokemon.df.gen6 <- data.gen6 %>%
   filter(id == 650) %>%
   group_by(Primary.Type) %>%
   summarise(count = n()) 
-for (i in 651:721) {
-  
-  # new column with the mot recent data
+
+gen6.number <- c(651:721)
+
+getTypes <- function(number) {
   new.pokemon.df <- data.gen6 %>%
-    filter(id == i) %>%
+    filter(id == number) %>%
     group_by(Primary.Type) %>%
     summarise(count = n()) 
   
@@ -236,9 +247,10 @@ for (i in 651:721) {
     group_by(Primary.Type) %>%
     summarise(count = sum(count))
   
-  
-  pokemon.df.gen6 <- total
+  pokemon.df.gen6 <<- total # the << to break the scope and to access value in lapply
 }
+
+lapply(gen6.number, getTypes)
 
 # chart for popular types (input filter allows for different generation)
 popular.bar.gen6 <- plot_ly(pokemon.df.gen6,
@@ -280,8 +292,7 @@ stats.bar <- plot_ly(data.stats,
 
 ####################################################################
 
-# We can teach kids about strength and con of different graph 
-### Line Graph ### depend on input to change the data
+### Line Graph ### 
 data.gen1 <- data.gen1 %>% mutate(avg.stats = (Special.Defense + Speed + Health + Special.Attack + Attack + Defense) / 6)
 avg.stats.gen1 <- data.gen1 %>% 
   summarise(mean = mean(avg.stats)) 
@@ -335,6 +346,9 @@ pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
   layout(title = 'Colors of all Pokemons',
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+#######################################################################################
+
+### SCATTER PLOT ### 
 
 wh.df <- read.csv(file = '../data/weight_and_height.csv', stringsAsFactors = FALSE)
 
