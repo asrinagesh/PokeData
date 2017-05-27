@@ -79,6 +79,7 @@ GetPokemonName <- function(id) {
   return(capitalize(data$name))
 }
 
+# writes the name of every pokemon (1-721) to a csv
 writeNameData <- function() {
   ids <- 1:721
   names <- sapply(ids, GetPokemonName)

@@ -47,8 +47,8 @@ shinyServer(function(input, output) {
       cat(paste0("Base XP: ", pokemon.df$base_experience,"\n"))
       cat(paste0("Height: ", ConvHeight(pokemon.df$height), " ft", "\n"))
       cat(paste0("Weight: ", ConvWeight(pokemon.df$weight), " lbs", "\n"))
-      cat(paste0("Type(s): "))
-      cat(capitalize(pokemon.df$types$type$name))
+      cat(paste0("Type(s): \n"))
+      #cat(capitalize(pokemon.df$types$type$name))
       pokeinfo.text <- paste0("This is ",capitalize(pokemon.df$name), ". The ", (pokemon.df$types$type$name), " type poki-mon. It is from generation ",
                               GetGenOfPokemon(pokemon.df$id), ". It is ", ConvHeight(pokemon.df$height), " feet tall and weighs ",
                               ConvWeight(pokemon.df$weight), " pounds.")
@@ -56,7 +56,7 @@ shinyServer(function(input, output) {
       voices <- watson.TTS.listvoices()
       voice <- voices[2,] #
       filename <- "temp.wav"
-      watson.TTS.execute(text,voice,filename)
+      #watson.TTS.execute(text,voice,filename)
     }
   })
   
@@ -161,5 +161,44 @@ shinyServer(function(input, output) {
     list(src = filename,
          alt = paste("Location", pokemon.df$id))
   }, deleteFile = FALSE)
+  
+  # reactively update the number of type images
+  observe({
+    output$types <- renderUI({
+      pokemon.df <- pokemon.df()
+      if(!is.null(pokemon.df$id)){
+        output.list <- makeTypes(pokemon.df)
+        print(output.list)
+        setTypeImages(pokemon.df)
+        do.call(tagList, output.list)
+      }
+    })
+  })
+  
+  # creates div tags dynamically for images
+  makeTypes <- function(pokemon.df) {
+    types <- pokemon.df$types$type$name
+    
+    output.list <- lapply(1:length(types), function(i) {
+      my_i <- i
+      id <- paste0("type", my_i)
+      imageOutput(id, height = 16, width = 48, inline = TRUE)
+    })
+    
+    return(output.list)
+  }
+  
+  # creates img tags dynamically for types
+  setTypeImages <- function(pokemon.df) {
+    types <- pokemon.df$types$type$name
+    lapply(1:length(types), function(i) {
+      my_i <- i
+      id <- paste0("type", my_i)
+      output[[id]] <- renderImage({
+        list(src = paste0("./www/assets/imgs/types/", types[my_i], ".png"),
+             alt = paste(types[i], "type"))
+      }, deleteFile = FALSE)
+    })
+  }
   
 })
