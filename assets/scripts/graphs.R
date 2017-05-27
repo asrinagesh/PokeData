@@ -5,16 +5,16 @@ library(dplyr)
 library(plotly)
 library(RColorBrewer)
 
-setwd('C:/Users/Tu/Desktop/Sophomore Year/Spring/INFO 201/PokeData')
+setwd('C:/Users/Tu/Desktop/Sophomore Year/Spring/INFO 201/PokeData/assets/scripts')
 
 # Read in Data
-data.gen1 <- read.csv(file = './assets/data/gen1data.csv', stringsAsFactors = FALSE)
-data.gen2 <- read.csv(file = './assets/data/gen2data.csv', stringsAsFactors = FALSE)
-data.gen3 <- read.csv(file = './assets/data/gen3data.csv', stringsAsFactors = FALSE)
-data.gen4 <- read.csv(file = './assets/data/gen4data.csv', stringsAsFactors = FALSE)
-data.gen5 <- read.csv(file = './assets/data/gen5data.csv', stringsAsFactors = FALSE)
-data.gen6 <- read.csv(file = './assets/data/gen6data.csv', stringsAsFactors = FALSE)
-data.stats <- read.csv(file = './assets/data/type_averages.csv', stringsAsFactors = FALSE)
+data.gen1 <- read.csv(file = '../data/gen1data.csv', stringsAsFactors = FALSE)
+data.gen2 <- read.csv(file = '../data/gen2data.csv', stringsAsFactors = FALSE)
+data.gen3 <- read.csv(file = '../data/gen3data.csv', stringsAsFactors = FALSE)
+data.gen4 <- read.csv(file = '../data/gen4data.csv', stringsAsFactors = FALSE)
+data.gen5 <- read.csv(file = '../data/gen5data.csv', stringsAsFactors = FALSE)
+data.gen6 <- read.csv(file = '../data/gen6data.csv', stringsAsFactors = FALSE)
+data.stats <- read.csv(file = '../data/type_averages.csv', stringsAsFactors = FALSE)
 
 ### Popular Types Bar ### 
 
@@ -318,7 +318,7 @@ line.graph <- plot_ly(avg.stats, x = ~generations, y = ~mean, type = 'scatter', 
 ########################################################################
 
 ### PIE CHART ###
-colors.df <- read.csv(file = './assets/data/color.csv', stringsAsFactors = FALSE)
+colors.df <- read.csv(file = '../data/color.csv', stringsAsFactors = FALSE)
 colors <- c('black', 'blue', 'brown', 'gray', 'green', 'pink', 'purple', 'red', 'white', 'yellow')
 colors.text <- c('white', 'white', 'white', 'white', 'white', 'black', 'white', 'white', 'black', 'black')
 
@@ -336,7 +336,7 @@ pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
 
-wh.df <- read.csv(file = './assets/data/weight_and_height.csv', stringsAsFactors = FALSE)
+wh.df <- read.csv(file = '../data/weight_and_height.csv', stringsAsFactors = FALSE)
 
 # Merged data between stats and weight/height
 merged.data <- left_join(wh.df, all.pokemons)
