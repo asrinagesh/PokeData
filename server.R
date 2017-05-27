@@ -23,7 +23,7 @@ source("./assets/scripts/GenerationAverages.R")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-
+  
   # Querys the api for the pokemon's data
   pokemon.df <- reactive({
     if(input$pokemon == "") {
@@ -60,13 +60,12 @@ shinyServer(function(input, output) {
     }
   })
   
+  # Renders text for location pokemon can be found in
   output$location_name <- renderPrint({
     pokemon.df <- pokemon.df()
     location.names <- read.csv(file = "./assets/data/pokemon_to_route_name.csv", stringsAsFactors = FALSE)
     location.names <- location.names[!(duplicated(location.names$poke_id)), ]
-    if(is.null(pokemon.df$id)) {
-      cat("Pokemon not found. Please try again")
-    } else {
+    if(!is.null(pokemon.df$id)) {
       pokemon.name <- capitalize(pokemon.df$name)
       location.title <- location.names %>% filter(poke_id == pokemon.name) %>% select(location_name)
       cat(pokemon.name)
@@ -158,7 +157,7 @@ shinyServer(function(input, output) {
     
     # if file doesnt exist, pokemon not available through conventional means
     if(file.exists(file)){ # pokemon found on a route
-        filename <- normalizePath(file)
+      filename <- normalizePath(file)
     } else { # pokemon is not found on routes
       file <- file.path('./www/assets/imgs/locations', 'error.png')
     }
