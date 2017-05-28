@@ -62,16 +62,14 @@ capitalize <- function(word) {
 ConvHeight <- function(height) {
   # need to divide by 10 first since conv_unit doesn't
   # support decimeters
-  ft <- conv_unit(height/10, 'm', 'ft')
-  return(round(ft, digits = 1))
+  return(conv_unit(height/10, 'm', 'ft'))
 }
 
 # converts a weight from hectograms to lbs
 ConvWeight <- function(weight) {
   # need to divide by 10 first since conv_unit doesn't
   # support hectograms
-  lbs <- conv_unit(weight/10, 'kg', 'lbs')
-  return(round(lbs, digits = 1))
+  return(conv_unit(weight/10, 'kg', 'lbs'))
 }
 
 # gets the name of a pokemon from its id

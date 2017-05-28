@@ -39,8 +39,8 @@ shinyServer(function(input, output) {
       cat(paste0("Name: ", capitalize(pokemon.query$name),"\n"))
       cat(paste0("Generation: ", GetGenOfPokemon(pokemon.query$id), "\n"))
       cat(paste0("Base XP: ", pokemon.query$base_experience,"\n"))
-      cat(paste0("Height: ", ConvHeight(pokemon.query$height), " ft", "\n"))
-      cat(paste0("Weight: ", ConvWeight(pokemon.query$weight), " lbs", "\n"))
+      cat(paste0("Height: ", round(ConvHeight(pokemon.query$height), digits = 1), " ft", "\n"))
+      cat(paste0("Weight: ", round(ConvWeight(pokemon.query$weight), digits = 1), " lbs", "\n"))
       cat(paste0("Type(s): \n"))
 
       # text to speech
