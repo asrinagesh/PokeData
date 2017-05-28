@@ -22,11 +22,10 @@ shinyServer(function(input, output) {
   # Querys the api for the pokemon's data
   pokemon.df <- reactive({
     if(input$pokemon == "") {
-      pokemon <- "not found"
+      pokemon.df <- NULL
     } else {
-      pokemon <- input$pokemon
+      pokemon.df <- QueryApi(paste0("pokemon/", tolower(input$pokemon)))
     }
-    pokemon.df <- QueryApi(paste0("pokemon/", tolower(pokemon)))    
   })
   
   # Prints out basic information about this pokemon, such as
@@ -43,7 +42,8 @@ shinyServer(function(input, output) {
       cat(paste0("Height: ", ConvHeight(pokemon.df$height), " ft", "\n"))
       cat(paste0("Weight: ", ConvWeight(pokemon.df$weight), " lbs", "\n"))
       cat(paste0("Type(s): \n"))
-      #cat(capitalize(pokemon.df$types$type$name))
+
+      # text to speech
       pokeinfo.text <- paste0("This is ",capitalize(pokemon.df$name), ". The ", (pokemon.df$types$type$name), " type poki-mon. It is from generation ",
                               GetGenOfPokemon(pokemon.df$id), ". It is ", ConvHeight(pokemon.df$height), " feet tall and weighs ",
                               ConvWeight(pokemon.df$weight), " pounds.")

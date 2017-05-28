@@ -390,6 +390,15 @@ body {
     {
         height: auto;
         width: 100%;
+        max-height: 330px;
+        /*margin: calc(10*1.2px);*/
+    }
+    
+    #location_map > img
+    {
+        height: auto;
+        width: auto;
+        max-height: 330px;
         /*margin: calc(10*1.2px);*/
     }
     
