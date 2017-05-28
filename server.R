@@ -1,12 +1,7 @@
 library(shiny)
-library(httr)
-library(jsonlite)
-library(plotly)
 suppressPackageStartupMessages(library(dplyr))
-library(ggplot2)
 library(scales)
-library(RCurl) # install.packages("RCurl") # if the package is not already installed
-library(httr)
+library(RCurl)
 library(audio) 
 library(seewave)
 library(Rtts)
@@ -168,20 +163,24 @@ shinyServer(function(input, output) {
          alt = paste("Location", pokemon.df$id))
   }, deleteFile = FALSE)
   
-  # reactively update the number of type images
+  # reactively update the type images
   observe({
     output$types <- renderUI({
       pokemon.df <- pokemon.df()
       if(!is.null(pokemon.df$id)){
+        # make div tags
         output.list <- makeTypes(pokemon.df)
-        print(output.list)
+        
+        # make img tags
         setTypeImages(pokemon.df)
+        
+        # update UI
         do.call(tagList, output.list)
       }
     })
   })
   
-  # creates div tags dynamically for images
+  # creates div tags dynamically for types
   makeTypes <- function(pokemon.df) {
     types <- pokemon.df$types$type$name
     

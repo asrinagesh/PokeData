@@ -1,4 +1,6 @@
 library(measurements)
+library(httr)
+library(jsonlite)
 
 # 
 # Utility script with some functions to assist 
@@ -9,7 +11,7 @@ library(measurements)
 # base uri for api querys
 base.uri <- "http://pokeapi.co/api/v2/"
 
-# TEXT TO SPEECH - AUTHENTICATION AND CREDENTIALS 
+# Text to speech - authentication and credentials 
 url_TTS <- "https://stream.watsonplatform.net/text-to-speech/api"
 username_TTS <-"dc9068ce-7600-4e59-bf70-03a4679d3f8c" # you need your own - STT service credentials from bluemix
 password_TTS <- "qou3eLqrL4zT"  # you need your own - STT service credentials from bluemix
