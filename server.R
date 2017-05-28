@@ -181,11 +181,15 @@ shinyServer(function(input, output) {
     output$types <- renderUI({
       pokemon.query <- pokemon.query()
       if(!is.null(pokemon.query$id)){
+        # grab types
+        types <- pokemon.query$types$type$name
+        types <- sort(types)
+        
         # make div tags
-        output.list <- makeTypes(pokemon.query)
+        output.list <- makeTypes(types)
         
         # make img tags
-        setTypeImages(pokemon.query)
+        setTypeImages(types)
         
         # update UI
         do.call(tagList, output.list)
@@ -194,9 +198,7 @@ shinyServer(function(input, output) {
   })
   
   # creates div tags dynamically for types
-  makeTypes <- function(pokemon.query) {
-    types <- pokemon.query$types$type$name
-    types <- sort(types)
+  makeTypes <- function(types) {
     output.list <- lapply(1:length(types), function(i) {
       my_i <- i
       id <- paste0("type", my_i)
@@ -207,9 +209,7 @@ shinyServer(function(input, output) {
   }
   
   # creates img tags dynamically for types
-  setTypeImages <- function(pokemon.query) {
-    types <- pokemon.query$types$type$name
-    types <- sort(types)
+  setTypeImages <- function(types) {
     lapply(1:length(types), function(i) {
       my_i <- i
       id <- paste0("type", my_i)

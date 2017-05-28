@@ -20,8 +20,8 @@ body {
 @font-face {
     font-family: 'PokeGB';
     src: url('./assets/fonts/PokemonGB.tff') format('truetype'),
-         url('./assets/fonts/PokemonGB.woff') format('truetype'),
-         url('./assets/fonts/PokemonGB.woff2') format('truetype');
+         url('./assets/fonts/PokemonGB.woff') format('woff'),
+         url('./assets/fonts/PokemonGB.woff2') format('woff2');
 }
 
 @media all {
