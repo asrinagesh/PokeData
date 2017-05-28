@@ -125,7 +125,7 @@ shinyServer(function(input, output) {
       colors.df <- read.csv(file = "./assets/data/typecolors.csv", stringsAsFactors = FALSE)
       colors.df <- colors.df %>% filter(type.name %in% pokemon.query$types$type$name) %>% arrange(type.name)
       colors <- c("#000000", colors.df$color.hex)
-      names(colors) <- binded.df$Pokemon
+      names(colors) <- binded.df$Pokemon # necessary to preserve order of colors
       
       # use external script to plot the data
       ggradar(binded.df, values.radar = c(0, max.stat/2, max.stat), color.vector = colors)
@@ -196,7 +196,7 @@ shinyServer(function(input, output) {
   # creates div tags dynamically for types
   makeTypes <- function(pokemon.query) {
     types <- pokemon.query$types$type$name
-    
+    types <- sort(types)
     output.list <- lapply(1:length(types), function(i) {
       my_i <- i
       id <- paste0("type", my_i)
@@ -209,6 +209,7 @@ shinyServer(function(input, output) {
   # creates img tags dynamically for types
   setTypeImages <- function(pokemon.query) {
     types <- pokemon.query$types$type$name
+    types <- sort(types)
     lapply(1:length(types), function(i) {
       my_i <- i
       id <- paste0("type", my_i)
