@@ -39,9 +39,14 @@ ggradar <- function(plot.data,
                     #plot.legend=if (nrow(plot.data)>1) TRUE else FALSE,
                     legend.title="",
                     plot.title="",
-                    legend.text.size=10 ) {
+                    legend.text.size=10,
+                    color.vector = c("#FF5A5F", "#FFB400", "#007A87",  "#8CE071", 
+                                     "#7B0051", "#00D1C1", "#FFAA91", "#B4A76C", 
+                                     "#9CA299", "#565A5C", "#00A04B", "#E54C20")) {
   
   library(ggplot2)
+  
+  pokemon.names <- plot.data$Pokemon
   
   plot.data <- as.data.frame(plot.data)
   
@@ -265,10 +270,13 @@ ggradar <- function(plot.data,
                                                                                     family = font.radar)) +
     theme(legend.text = element_text(size = legend.text.size), legend.position="top") +
     theme(legend.key.height=unit(2,"line")) +
-    scale_colour_manual(values=rep(c("#FF5A5F", "#FFB400", "#007A87",  "#8CE071", "#7B0051", 
-                                     "#00D1C1", "#FFAA91", "#B4A76C", "#9CA299", "#565A5C", "#00A04B", "#E54C20"), 100)) +
+    scale_colour_manual(values=rep(color.vector, 100), breaks = pokemon.names) +
     theme(text=element_text(family=font.radar)) + 
     theme(legend.title=element_blank())
+  
+
+  
+  # c("#FF5A5F", "#FFB400", "#007A87",  "#8CE071", "#7B0051", "#00D1C1", "#FFAA91", "#B4A76C", "#9CA299", "#565A5C", "#00A04B", "#E54C20")
   
   if (plot.title != "") {
     base <- base + ggtitle(plot.title)

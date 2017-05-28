@@ -87,3 +87,17 @@ writeNameData <- function() {
   names <- sapply(ids, GetPokemonName)
   write.csv(names, file = "pokenames.csv", row.names = FALSE)
 }
+
+# writes the colors for all types
+writeTypeColors <- function() {
+  type.name <- c("bug", "dark", "dragon", "electric", "fairy", "fighting", 
+                 "fire", "flying", "ghost", "grass", "ground", "ice",
+                 "normal", "poison", "psychic", "rock", "steel", "water")
+  
+  color.hex <- c("#90BF75", "#7D7575", "#5B0FF6", "#D9DD09", "#FC45CB", "#F3585D",
+                 "#F47C25", "#4ABCEC", "#9652F6", "#81E76D", "#F4C242", "#2ED1C5",
+                 "#AAAA98", "#D675F6", "#F31398", "#BB9038", "#A9A8C5", "#5682F6")
+  
+  type.color.df <- data.frame(type.name, color.hex, stringsAsFactors = FALSE)
+  write.csv(type.color.df, file = "typecolors.csv", row.names = FALSE)
+}
