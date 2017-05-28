@@ -105,15 +105,9 @@ body {
     
     label
     {
-        font-family: PokemonGB;
+        font-family: "PokeGB";
         color: white;
     }
-    
-    input {
-        font-family: PokemonGB;
-        color: white;
-    }
-
 
 	div#curve2_left
 	{
@@ -309,6 +303,13 @@ body {
 		-moz-border-radius: 15px;
 		-o-border-radius: 15px;
 	}
+
+  input[type="text"] {
+    font-family: "PokeGB";
+    font-size: 10px;
+    height: 40px;
+    color: white;
+  }
 
 	div#picture
 	{
