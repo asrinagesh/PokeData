@@ -211,7 +211,7 @@ shinyServer(function(input, output) {
       }
     })
     
-    # evoltuion chain
+    # evolution chain
     output$evo_chain <- renderUI({
       pokemon.query <- pokemon.query()
       if(!is.null(pokemon.query$id)) {
@@ -236,6 +236,11 @@ shinyServer(function(input, output) {
     })
   })
   
-  
+  output$pokenames_div <- renderUI({
+    pokenames <- read.csv(file = "./assets/data/pokenames.csv", stringsAsFactors = FALSE)
+    tags$datalist(id = "pokenames", lapply(1:nrow(pokenames), function(i) {
+                                      tags$option(pokenames$name[i])
+                                    }))
+  })
   
 })

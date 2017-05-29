@@ -2,13 +2,14 @@
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>CSS Pokedex</title>
+  <title>Pokedata: Analyze em all!</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="input.css">
   <script src="shinyjs/inject.js"></script>
   <script src="shared/jquery.js" type="text/javascript"></script>
   <script src="shared/shiny.js" type="text/javascript"></script>
   <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -24,10 +25,12 @@
 					<label class="input__label input__label--chisato" for="input-13">
 						<span class="input__label-content input__label-content--chisato" data-content="Pokemon Name/ID">Pokemon Name/ID</span>
 					</label>
-					<datalist id="pokenames">
-                        <option value="pikachu">
-                        <option value="gengar">
-					</datalist>
+					<div id="pokenames_div" class="shiny-html-output">
+					  <datalist id="pokenames">
+					    <option value="test"></option>
+					    <option value="test2"></option>
+					  </datalist>
+					</div>
 				</span>
                 </div>
     </div>
