@@ -22,33 +22,6 @@ data.stats <- read.csv(file = '../data/type_averages.csv', stringsAsFactors = FA
 # For all Pokemons
 all.pokemons <- rbind(data.gen1, data.gen2, data.gen3, data.gen4, data.gen5, data.gen6)
 
-
-## 1st Gen ## 
-pokemon.df.gen1 <- data.gen1 %>% 
-  filter(id == 1) %>%
-  group_by(Primary.Type) %>%
-  summarise(count = n()) 
-
-gen1.number <- c(2:151)
-
-getTypes <- function(number) {
-  new.pokemon.df <- data.gen1 %>%
-    filter(id == number) %>%
-    group_by(Primary.Type) %>%
-    summarise(count = n()) 
-  
-  # bind the old data with new data 
-  total <- rbind(pokemon.df.gen1, new.pokemon.df)
-  # updating the count number 
-  total <- total %>% 
-    group_by(Primary.Type) %>%
-    summarise(count = sum(count))
-  
-  pokemon.df.gen1 <<- total # the << to break the scope and to access value in lapply
-}
-
-lapply(gen1.number, getTypes)
-
 m <- list(
   l = 200,
   r = 50,
@@ -57,229 +30,110 @@ m <- list(
   pad = 4
 )
 
-color.pokemons <- c('#208000', '#ffff99', '#ffff1a', '#ff66ff', '#660000', '#e60000', '#d9d9d9', '#290066', 
+color.pokemons.without.dark <- c('#208000', '#ffff99', '#ffff1a', '#ff66ff', '#660000', '#e60000', '#d9d9d9', '#290066', 
                     '#40ff00', '#cc9900', '#b3fff0', '#ffe6cc', '#8000ff', '#db4dff', '#996633', '#ccccff',
                     '#0099ff')
 
 color.pokemons.with.dark <- c('#208000', 'black', '#ffff99', '#ffff1a', '#ff66ff', '#660000', '#e60000', '#d9d9d9', '#290066', 
                               '#40ff00', '#cc9900', '#b3fff0', '#ffe6cc', '#8000ff', '#db4dff', '#996633', '#ccccff',
                               '#0099ff')
+color.pokemons <- NULL
 
-# chart for popular types (input filter allows for different generation)
-popular.bar.gen1 <- plot_ly(pokemon.df.gen1,
-  x = ~Primary.Type,
-  y = ~count,
-  type = 'bar',
-  color = ~Primary.Type,
-  colors = color.pokemons,
-  opacity = 0.8
-) %>% layout(title = 'Pokemon Type Distribution',
-             xaxis = list(title = 'Types'),
-             yaxis = list(title = 'Number of Pokemons'),
-             margin = m) 
-
-
-## 2nd Gen ##
-
-pokemon.df.gen2 <- data.gen2 %>% 
-  filter(id == 152) %>%
-  group_by(Primary.Type) %>%
-  summarise(count = n()) 
-
-gen2.number <- c(153:251)
-
-getTypes <- function(number) {
-  new.pokemon.df <- data.gen2 %>%
-    filter(id == number) %>%
+makePopularData <- function(gen) {
+  id.first <- 0
+  gen.number <- 0
+  data.gen <- NULL
+  
+  if (gen == 1) {
+    id.first <- 1
+    gen.number <- c(2:151)
+    data.gen <- data.gen1
+  } else if (gen == 2) {
+    id.first <- 152
+    gen.number <- c(153:251)
+    data.gen <- data.gen2
+  } else if (gen == 3) {
+    id.first <- 252
+    gen.number <- c(253:386)
+    data.gen <- data.gen3
+  } else if (gen == 4) {
+    id.first <- 387
+    gen.number <- c(388:493)
+    data.gen <- data.gen4
+  } else if (gen == 5) {
+    id.first <- 494
+    gen.number <- c(495:649)
+    data.gen <- data.gen5
+  } else {
+    id.first <- 650
+    gen.number <- c(651:721)
+    data.gen <- data.gen6
+  }
+  
+  pokemon.df.gen <- data.gen %>% 
+    filter(id == id.first) %>%
     group_by(Primary.Type) %>%
     summarise(count = n()) 
   
-  # bind the old data with new data 
-  total <- rbind(pokemon.df.gen2, new.pokemon.df)
-  # updating the count number 
-  total <- total %>% 
-    group_by(Primary.Type) %>%
-    summarise(count = sum(count))
+  getTypes <- function(number) {
+    new.pokemon.df <- data.gen %>%
+      filter(id == number) %>%
+      group_by(Primary.Type) %>%
+      summarise(count = n()) 
+    
+    # bind the old data with new data 
+    total <- rbind(pokemon.df.gen, new.pokemon.df)
+    # updating the count number 
+    total <- total %>% 
+      group_by(Primary.Type) %>%
+      summarise(count = sum(count))
+    
+    pokemon.df.gen <<- total # the << to break the scope and to access value in lapply
+  }
   
-  pokemon.df.gen2 <<- total # the << to break the scope and to access value in lapply
+  lapply(gen.number, getTypes)
+  
+  
+  return(pokemon.df.gen)
 }
 
-lapply(gen2.number, getTypes)
+# Getting the popular types for each generation
+pokemon.df.gen1 <- makePopularData(1) 
+pokemon.df.gen2 <- makePopularData(2)
+pokemon.df.gen3 <- makePopularData(3)
+pokemon.df.gen4 <- makePopularData(4)
+pokemon.df.gen5 <- makePopularData(5)
+pokemon.df.gen6 <- makePopularData(6)
 
-# chart for popular types (input filter allows for different generation)
-popular.bar.gen2 <- plot_ly(pokemon.df.gen2,
-                            x = ~Primary.Type,
-                            y = ~count,
-                            type = 'bar',
-                            color = ~Primary.Type,
-                            colors = color.pokemons.with.dark,
-                            opacity = 0.8
-) %>% layout(title = 'Pokemon Type Distribution',
-             xaxis = list(title = 'Types'),
-             yaxis = list(title = 'Number of Pokemons'),
-             margin = m)
-
-## 3rd Gen ##
-
-pokemon.df.gen3 <- data.gen3 %>% 
-  filter(id == 252) %>%
-  group_by(Primary.Type) %>%
-  summarise(count = n()) 
-
-gen3.number <- c(253:386)
-
-getTypes <- function(number) {
-  new.pokemon.df <- data.gen3 %>%
-    filter(id == number) %>%
-    group_by(Primary.Type) %>%
-    summarise(count = n()) 
+makeBarPopular <- function(pokemon.df.gen) {
+  color.pokemons <- NULL
   
-  # bind the old data with new data 
-  total <- rbind(pokemon.df.gen3, new.pokemon.df)
-  # updating the count number 
-  total <- total %>% 
-    group_by(Primary.Type) %>%
-    summarise(count = sum(count))
+  if (nrow(pokemon.df.gen) == 17) {
+    color.pokemons <- color.pokemons.without.dark
+  } else {
+    color.pokemons <- color.pokemons.with.dark
+  }
   
-  pokemon.df.gen3 <<- total # the << to break the scope and to access value in lapply
+  popular.bar.gen <- plot_ly(pokemon.df.gen,
+                             x = ~Primary.Type,
+                             y = ~count,
+                             type = 'bar',
+                             color = ~Primary.Type,
+                             colors = color.pokemons,
+                             opacity = 0.8
+  ) %>% layout(title = 'Pokemon Type Distribution',
+               xaxis = list(title = 'Types'),
+               yaxis = list(title = 'Number of Pokemons'),
+               margin = m) 
 }
 
-lapply(gen3.number, getTypes)
-
-# chart for popular types (input filter allows for different generation)
-popular.bar.gen3 <- plot_ly(pokemon.df.gen3,
-                            x = ~Primary.Type,
-                            y = ~count,
-                            type = 'bar',
-                            color = ~Primary.Type,
-                            colors = color.pokemons.with.dark,
-                            opacity = 0.8
-) %>% layout(title = 'Pokemon Type Distribution',
-             xaxis = list(title = 'Types'),
-             yaxis = list(title = 'Number of Pokemons'),
-             margin = m) 
-
-## 4th Gen ##
-
-pokemon.df.gen4 <- data.gen4 %>% 
-  filter(id == 387) %>%
-  group_by(Primary.Type) %>%
-  summarise(count = n()) 
-
-gen4.number <- c(388:493)
-
-getTypes <- function(number) {
-  new.pokemon.df <- data.gen4 %>%
-    filter(id == number) %>%
-    group_by(Primary.Type) %>%
-    summarise(count = n()) 
-  
-  # bind the old data with new data 
-  total <- rbind(pokemon.df.gen4, new.pokemon.df)
-  # updating the count number 
-  total <- total %>% 
-    group_by(Primary.Type) %>%
-    summarise(count = sum(count))
-  
-  pokemon.df.gen4 <<- total # the << to break the scope and to access value in lapply
-}
-
-lapply(gen4.number, getTypes)
-
-# chart for popular types (input filter allows for different generation)
-popular.bar.gen4 <- plot_ly(pokemon.df.gen4,
-                            x = ~Primary.Type,
-                            y = ~count,
-                            type = 'bar',
-                            color = ~Primary.Type,
-                            colors = color.pokemons.with.dark,
-                            opacity = 0.8
-) %>% layout(title = 'Pokemon Type Distribution',
-             xaxis = list(title = 'Types'),
-             yaxis = list(title = 'Number of Pokemons'),
-             margin = m) 
-
-
-## 5th Gen ##
-
-pokemon.df.gen5 <- data.gen5 %>% 
-  filter(id == 494) %>%
-  group_by(Primary.Type) %>%
-  summarise(count = n()) 
-
-gen5.number <- c(495:649)
-
-getTypes <- function(number) {
-  new.pokemon.df <- data.gen5 %>%
-    filter(id == number) %>%
-    group_by(Primary.Type) %>%
-    summarise(count = n()) 
-  
-  # bind the old data with new data 
-  total <- rbind(pokemon.df.gen5, new.pokemon.df)
-  # updating the count number 
-  total <- total %>% 
-    group_by(Primary.Type) %>%
-    summarise(count = sum(count))
-  
-  pokemon.df.gen5 <<- total # the << to break the scope and to access value in lapply
-}
-
-lapply(gen5.number, getTypes)
-
-# chart for popular types (input filter allows for different generation)
-popular.bar.gen5 <- plot_ly(pokemon.df.gen5,
-                            x = ~Primary.Type,
-                            y = ~count,
-                            type = 'bar',
-                            color = ~Primary.Type,
-                            colors = ~color.pokemons.with.dark,
-                            opacity = 0.8
-) %>% layout(title = 'Pokemon Type Distribution',
-             xaxis = list(title = 'Types'),
-             yaxis = list(title = 'Number of Pokemons'),
-             margin = m) 
-
-
-## 6th Gen ##
-
-pokemon.df.gen6 <- data.gen6 %>% 
-  filter(id == 650) %>%
-  group_by(Primary.Type) %>%
-  summarise(count = n()) 
-
-gen6.number <- c(651:721)
-
-getTypes <- function(number) {
-  new.pokemon.df <- data.gen6 %>%
-    filter(id == number) %>%
-    group_by(Primary.Type) %>%
-    summarise(count = n()) 
-  
-  # bind the old data with new data 
-  total <- rbind(pokemon.df.gen6, new.pokemon.df)
-  # updating the count number 
-  total <- total %>% 
-    group_by(Primary.Type) %>%
-    summarise(count = sum(count))
-  
-  pokemon.df.gen6 <<- total # the << to break the scope and to access value in lapply
-}
-
-lapply(gen6.number, getTypes)
-
-# chart for popular types (input filter allows for different generation)
-popular.bar.gen6 <- plot_ly(pokemon.df.gen6,
-                            x = ~Primary.Type,
-                            y = ~count,
-                            type = 'bar',
-                            color = ~Primary.Type,
-                            colors = color.pokemons.with.dark,
-                            opacity = 0.8
-) %>% layout(title = 'Pokemon Type Distribution',
-             xaxis = list(title = 'Types'),
-             yaxis = list(title = 'Number of Pokemons'),
-             margin = m) 
+# Making the graph for each generation
+popular.bar1 <- makeBarPopular(pokemon.df.gen1) 
+popular.bar2 <- makeBarPopular(pokemon.df.gen2)
+popular.bar3 <- makeBarPopular(pokemon.df.gen3)
+popular.bar4 <- makeBarPopular(pokemon.df.gen4)
+popular.bar5 <- makeBarPopular(pokemon.df.gen5)
+popular.bar6 <- makeBarPopular(pokemon.df.gen6)
 
 ## STACKED BAR CHART ##
 # Making a stacked bar chart
