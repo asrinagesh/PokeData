@@ -16,6 +16,9 @@ source("./assets/scripts/GenerationAverages.R")
 # Akash
 # setwd("~/Work/School/INFO201/PokeData/")
 
+# Tu
+# setwd('C:/Users/Tu/Desktop/Sophomore Year/Spring/INFO 201/PokeData/')
+
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   
