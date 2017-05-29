@@ -236,11 +236,11 @@ shinyServer(function(input, output) {
     })
   })
   
+  # creates the drop down dynamically from 
   output$pokenames_div <- renderUI({
     pokenames <- read.csv(file = "./assets/data/pokenames.csv", stringsAsFactors = FALSE)
     tags$datalist(id = "pokenames", lapply(1:nrow(pokenames), function(i) {
-                                      tags$option(pokenames$name[i])
-                                    }))
+                                      tags$option(pokenames$name[i])}))
   })
   
 })
