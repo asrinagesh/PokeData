@@ -72,13 +72,6 @@ ConvWeight <- function(weight) {
   return(conv_unit(weight/10, 'kg', 'lbs'))
 }
 
-# gets the name of a pokemon from its id
-GetPokemonName <- function(id) {
-  data <- QueryApi(paste0("pokemon/", id))
-  cat(paste(id, data$name, "\n"))
-  return(capitalize(data$name))
-}
-
 # writes the name of every pokemon (1-721) to a csv
 writeNameData <- function() {
   ids <- 1:721
@@ -98,4 +91,82 @@ writeTypeColors <- function() {
   
   type.color.df <- data.frame(type.name, color.hex, stringsAsFactors = FALSE)
   write.csv(type.color.df, file = "typecolors.csv", row.names = FALSE)
+}
+
+# evolution information
+getEvolutionChain <- function(pokemon.query) {
+  species <- fromJSON(content(GET(pokemon.query$species$url), "text", encoding = "UTF-8"))
+  evo.chain <- fromJSON(content(GET(species$evolution_chain$url), "text", encoding = "UTF-8"))
+  chain <- c(evo.chain$chain$species$name)
+  if(!is.null(evo.chain$chain$evolves_to$species$name)) {
+    chain <- c(chain, evo.chain$chain$evolves_to$species$name)
+  }
+  if(!is.null(evo.chain$chain$evolves_to$evolves_to[[1]]$species$name)) {
+    chain <- c(chain, evo.chain$chain$evolves_to$evolves_to[[1]]$species$name)
+  }
+  return(chain)
+}
+
+convertChainToIDs <- function(chain) {
+  return(sapply(chain, getPokemonID))
+}
+
+getEvolutionChainDF <- function(id) {
+  pokemon.query <- QueryApi(paste0("pokemon/", id))
+  
+  cat(paste(pokemon.query$id, pokemon.query$name, "\n"))
+  
+  id <- pokemon.query$id
+  name <- pokemon.query$name
+  chain.vector <- getEvolutionChain(pokemon.query)
+  chain <- unlist(paste(chain.vector, collapse = " "))
+  
+  return(data.frame(id, name, chain, stringsAsFactors = FALSE))
+}
+
+writeChainDF <- function() {
+  one <- lapply(1:100, getEvolutionChainDF)
+  one.df <- do.call(rbind, one)
+  write.csv(one.df, file="./assets/data/one.csv")
+  
+  two <- lapply(101:200, getEvolutionChainDF)
+  two.df <- do.call(rbind, two)
+  write.csv(two.df, file="./assets/data/two.csv")
+  
+  three <- lapply(201:300, getEvolutionChainDF)
+  three.df <- do.call(rbind, three)
+  write.csv(three.df, file="./assets/data/three.csv")
+  
+  four <- lapply(301:400, getEvolutionChainDF)
+  four.df <- do.call(rbind, four)
+  write.csv(four.df, file="./assets/data/four.csv")
+  
+  five <- lapply(401:500, getEvolutionChainDF)
+  five.df <- do.call(rbind, five)
+  write.csv(five.df, file="./assets/data/five.csv")
+  
+  six <- lapply(501:600, getEvolutionChainDF)
+  six.df <- do.call(rbind, six)
+  write.csv(six.df, file="./assets/data/six.csv")
+  
+  seven <- lapply(601:721, getEvolutionChainDF)
+  seven.df <- do.call(rbind, seven)
+  write.csv(seven.df, file="./assets/data/seven.csv")
+  
+  total <- rbind(one.df, two.df, three.df, four.df, five.df, six.df, seven.df)
+  write.csv(total, file = "./assets/data/evolution.csv", row.names = FALSE)
+}
+
+# gets the id of a pokemon from its name
+getPokemonID <- function(name.to.search) {
+  pokenames <- read.csv(file = "./assets/data/pokenames.csv", stringsAsFactors = FALSE)
+  pokenames <- pokenames %>% filter(name == capitalize(name.to.search))
+  return(pokenames$id)
+}
+
+# gets the name of a pokemon from its id
+getPokemonName <- function(id.to.search) {
+  pokenames <- read.csv(file = "./assets/data/pokenames.csv", stringsAsFactors = FALSE)
+  pokenames <- pokenames %>% filter(id == capitalize(id.to.search))
+  return(pokenames$name)
 }

@@ -112,9 +112,19 @@ writeGenData <- function() {
   gen.6.df <- do.call(rbind, gen.6.list)
   write.csv(gen.6.df, file = "~/Documents/School/INFO201/PokeData/gen6data.csv", row.names = FALSE)
   
+  gen.1.df <- read.csv(file = "./assets/data/gen1data.csv", stringsAsFactors = FALSE)
+  gen.2.df <- read.csv(file = "./assets/data/gen2data.csv", stringsAsFactors = FALSE)
+  gen.3.df <- read.csv(file = "./assets/data/gen3data.csv", stringsAsFactors = FALSE)
+  gen.4.df <- read.csv(file = "./assets/data/gen4data.csv", stringsAsFactors = FALSE)
+  gen.5.df <- read.csv(file = "./assets/data/gen5data.csv", stringsAsFactors = FALSE)
+  gen.6.df <- read.csv(file = "./assets/data/gen6data.csv", stringsAsFactors = FALSE)
+  
+  
+  
   total <- rbind(gen.1.df, gen.2.df, gen.3.df, gen.4.df, gen.5.df, gen.6.df)
   
-  averages <- gen.1.df %>% group_by(Primary.Type) %>% summarise(avg.spd = mean(Special.Defense), avg.speed = mean(Speed),
+  
+  averages <- total %>% group_by(Primary.Type) %>% summarise(avg.spd = mean(Special.Defense), avg.speed = mean(Speed),
                                                                 avg.health = mean(Health), avg.spa = mean(Special.Attack),
                                                                 avg.attack = mean(Attack), avg.defense = mean(Defense),
                                                                 avg.all = (avg.spd + avg.speed + avg.health + 

@@ -98,7 +98,7 @@ shinyServer(function(input, output) {
       
       # find the data for averages for each type that are relevant to this pokemon
       averages <- read.csv(file = "./assets/data/type_averages.csv", stringsAsFactors = FALSE)
-      averages <- averages %>% select("Pokemon" = Primary.Type, "Special Defense" = avg.spd,"Speed" = avg.speed, "Health" = avg.health,
+      averages <- averages %>% select("Pokemon" = Primary.Type, "Special Defense" = avg.spd, "Speed" = avg.speed, "Health" = avg.health,
                                       "Special Attack" = avg.spa, "Attack" = avg.attack, "Defense" = avg.defense) %>% 
                                       filter(Pokemon %in% pokemon.query$types$type$name) %>% arrange(Pokemon)
       
@@ -176,8 +176,16 @@ shinyServer(function(input, output) {
          alt = paste("Location", pokemon.query$id))
   }, deleteFile = FALSE)
   
-  # reactively update the type images
+  output$evo_text <- renderPrint({
+    pokemon.query <- pokemon.query()
+    if(!is.null(pokemon.query$id)){
+      cat(paste0("Evolution chain for ", capitalize(pokemon.query$name), ":"))
+    }
+  })
+  
+  # reactively update images
   observe({
+    # type images
     output$types <- renderUI({
       pokemon.query <- pokemon.query()
       if(!is.null(pokemon.query$id)){
@@ -186,38 +194,48 @@ shinyServer(function(input, output) {
         types <- sort(types)
         
         # make div tags
-        output.list <- makeTypes(types)
+        output.list <- lapply(1:length(types), function(i) {
+          imageOutput(types[i], height = 16, width = 48, inline = TRUE)
+        })
         
         # make img tags
-        setTypeImages(types)
+        lapply(1:length(types), function(i) {
+          output[[types[i]]] <- renderImage({
+            list(src = paste0("./www/assets/imgs/types/", types[i], ".png"),
+                 alt = paste(types[i], "type"))
+          }, deleteFile = FALSE)
+        })
         
         # update UI
         do.call(tagList, output.list)
       }
     })
+    
+    # evoltuion chain
+    output$evo_chain <- renderUI({
+      pokemon.query <- pokemon.query()
+      if(!is.null(pokemon.query$id)) {
+        evolution.df <- read.csv(file = "./assets/data/evolution.csv", stringsAsFactors = FALSE)
+        chain.str <- (evolution.df %>% filter(id == pokemon.query$id))$chain
+        chain <- unlist(strsplit(chain.str, split=" "))
+
+        output.list <- lapply(1:length(chain), function(i) {
+          id <- chain[i]
+          imageOutput(id, height = 96, width = 96, inline = TRUE)
+        })
+
+        lapply(1:length(chain), function(i) {
+          output[[chain[i]]] <- renderImage({
+            list(src = paste0("./www/assets/imgs/sprites/", getPokemonID(chain[i]), ".png"),
+                 alt = chain[i])
+          }, deleteFile = FALSE)
+        })
+
+        do.call(tagList, output.list)
+      }
+    })
   })
   
-  # creates div tags dynamically for types
-  makeTypes <- function(types) {
-    output.list <- lapply(1:length(types), function(i) {
-      my_i <- i
-      id <- paste0("type", my_i)
-      imageOutput(id, height = 16, width = 48, inline = TRUE)
-    })
-    
-    return(output.list)
-  }
   
-  # creates img tags dynamically for types
-  setTypeImages <- function(types) {
-    lapply(1:length(types), function(i) {
-      my_i <- i
-      id <- paste0("type", my_i)
-      output[[id]] <- renderImage({
-        list(src = paste0("./www/assets/imgs/types/", types[my_i], ".png"),
-             alt = paste(types[i], "type"))
-      }, deleteFile = FALSE)
-    })
-  }
   
 })

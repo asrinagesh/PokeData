@@ -20,10 +20,14 @@
                 <div id="search_bar">
 <!--                  <input id="pokemon" type="text" class="form-control" autocomplete="off" value="Pikachu"/>-->
                 <span class="input input--chisato">
-					<input id="pokemon" class="input__field input__field--chisato" type="text" onfocusout="this.value = '';"/>
+					<input id="pokemon" list="pokenames" class="input__field input__field--chisato" type="text" onfocusout="this.value = '';"/>
 					<label class="input__label input__label--chisato" for="input-13">
 						<span class="input__label-content input__label-content--chisato" data-content="Pokemon Name/ID">Pokemon Name/ID</span>
 					</label>
+					<datalist id="pokenames">
+                        <option value="pikachu">
+                        <option value="gengar">
+					</datalist>
 				</span>
                 </div>
     </div>
@@ -71,6 +75,8 @@
       <div id="picture2">
           <div id="location_map" class="shiny-image-output debug" ></div>
           <div id="location_name" class="shiny-text-output noplaceholder debug"></div>
+          <div id="evo_text" class="shiny-text-output"></div>
+          <div id="evo_chain" class="shiny-html-output"></div>
       </div>
     </div>
   </div>
