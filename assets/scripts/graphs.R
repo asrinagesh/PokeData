@@ -105,14 +105,6 @@ makePopularData <- function(gen) {
   return(pokemon.df.gen)
 }
 
-# Getting the data popular types for each generation
-pokemon.df.gen1 <- makePopularData(1) 
-pokemon.df.gen2 <- makePopularData(2)
-pokemon.df.gen3 <- makePopularData(3)
-pokemon.df.gen4 <- makePopularData(4)
-pokemon.df.gen5 <- makePopularData(5)
-pokemon.df.gen6 <- makePopularData(6)
-
 # take in the data of the number of pokemon per type and return a bar chart
 makeBarPopular <- function(pokemon.df.gen) {
   color.pokemons <- NULL
@@ -138,28 +130,39 @@ makeBarPopular <- function(pokemon.df.gen) {
                margin = m) 
 }
 
-# Making the graph for each generation
-popular.bar1 <- makeBarPopular(pokemon.df.gen1) 
-popular.bar2 <- makeBarPopular(pokemon.df.gen2)
-popular.bar3 <- makeBarPopular(pokemon.df.gen3)
-popular.bar4 <- makeBarPopular(pokemon.df.gen4)
-popular.bar5 <- makeBarPopular(pokemon.df.gen5)
-popular.bar6 <- makeBarPopular(pokemon.df.gen6)
+# MAIN FUNCTION TAKES IN INPUT AND RETURN THE BAR CHART
+makeBar <- function(gen) {
+  pokemon.df.gen <- makePopularData(gen)
+  return(makeBarPopular(pokemon.df.gen))
+}
 
 ########################################################################################################
 
 ## STACKED BAR CHART ##
 
-# Making a stacked bar chart of number of pokemon per type of each generation stacks on one another
-stacked.bar <- plot_ly(pokemon.df.gen1, x = ~Primary.Type, y = ~count, type = 'bar', name = 'Gen 1', opacity = 0.8) %>%
-  add_trace(pokemon.df.gen2, x = ~Primary.Type, y = ~count, name = 'Gen 2', opacity = 0.8) %>% 
-  add_trace(pokemon.df.gen3, x = ~Primary.Type, y = ~count, name = 'Gen 3', opacity = 0.8) %>% 
-  add_trace(pokemon.df.gen4, x = ~Primary.Type, y = ~count, name = 'Gen 4', opacity = 0.8) %>% 
-  add_trace(pokemon.df.gen5, x = ~Primary.Type, y = ~count, name = 'Gen 5', opacity = 0.8) %>% 
-  add_trace(pokemon.df.gen6, x = ~Primary.Type, y = ~count, name = 'Gen 6', opacity = 0.8) %>% 
-  layout(title = 'Pokemon Type Distribution',
-         xaxis = list(title = 'Types'),
-         yaxis = list(title = 'Number of Pokemons'), barmode = 'stack' , margin = m) 
+makeStacked <- function() {
+  
+  # Getting the data popular types for each generation
+  pokemon.df.gen1 <- makePopularData(1) 
+  pokemon.df.gen2 <- makePopularData(2)
+  pokemon.df.gen3 <- makePopularData(3)
+  pokemon.df.gen4 <- makePopularData(4)
+  pokemon.df.gen5 <- makePopularData(5)
+  pokemon.df.gen6 <- makePopularData(6)
+  
+  # Making a stacked bar chart of number of pokemon per type of each generation stacks on one another
+  stacked.bar <- plot_ly(pokemon.df.gen1, x = ~Primary.Type, y = ~count, type = 'bar', name = 'Gen 1', opacity = 0.8) %>%
+    add_trace(pokemon.df.gen2, x = ~Primary.Type, y = ~count, name = 'Gen 2', opacity = 0.8) %>% 
+    add_trace(pokemon.df.gen3, x = ~Primary.Type, y = ~count, name = 'Gen 3', opacity = 0.8) %>% 
+    add_trace(pokemon.df.gen4, x = ~Primary.Type, y = ~count, name = 'Gen 4', opacity = 0.8) %>% 
+    add_trace(pokemon.df.gen5, x = ~Primary.Type, y = ~count, name = 'Gen 5', opacity = 0.8) %>% 
+    add_trace(pokemon.df.gen6, x = ~Primary.Type, y = ~count, name = 'Gen 6', opacity = 0.8) %>% 
+    layout(title = 'Pokemon Type Distribution',
+           xaxis = list(title = 'Types'),
+           yaxis = list(title = 'Number of Pokemons'), barmode = 'stack' , margin = m) 
+  
+  return(stacked.bar)
+}
 
 ########################################################################################################
 
@@ -167,17 +170,23 @@ stacked.bar <- plot_ly(pokemon.df.gen1, x = ~Primary.Type, y = ~count, type = 'b
 
 # with widget input can select what stats they want to show (avg.speed, overall, etc.)
 # a bar graph showing the type with the highest stats 
-stats.bar <- plot_ly(data.stats,
-                     x = ~Primary.Type,
-                     y = ~avg.all,
-                     type = 'bar',
-                     color = ~Primary.Type,
-                     colors = ~color.pokemons,
-                     opacity = 0.7 
-) %>% layout(title = 'Highest Overall Stats',
-             xaxis = list(title = 'Types'),
-             yaxis = list(title = 'Highest Stats'),
-             margin = m) 
+
+# taking in name of the stats column and return a bar stats 
+makeStats <- function(stats) {
+  stats <- paste0('~', stats)
+  
+  stats.bar <- plot_ly(data.stats,
+                       x = ~Primary.Type,
+                       y = eval(parse(text = stats)),
+                       type = 'bar',
+                       color = ~Primary.Type,
+                       colors = ~color.pokemons,
+                       opacity = 0.7 
+  ) %>% layout(title = 'Highest Overall Stats',
+               xaxis = list(title = 'Types'),
+               yaxis = list(title = 'Highest Stats'),
+               margin = m) 
+}
 
 #################################################################################################################
 
@@ -243,6 +252,7 @@ pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
   layout(title = 'Colors of Pokemons',
          xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
          yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+
 #######################################################################################
 
 ### SCATTER PLOT ### 
@@ -251,7 +261,6 @@ pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
 all.pokemons <- rbind(data.gen1, data.gen2, data.gen3, data.gen4, data.gen5, data.gen6)
 
 wh.df <- read.csv(file = '../data/weight_and_height.csv', stringsAsFactors = FALSE)
-
 # Merged data between stats and weight/height
 merged.data <- left_join(wh.df, all.pokemons)
 
@@ -263,22 +272,34 @@ merged.data$weight <- as.numeric(merged.data$weight)
 merged.data$height <- lapply(merged.data$height, ConvHeight)
 merged.data$height <- as.numeric(merged.data$height)
 
-# making scatter plot for plotly
-scatter <- plot_ly(merged.data, x = ~weight, y = ~Health, color = ~weight,
-                   size = ~weight) %>%
-  layout(title = 'Correlation between the weight of the pokemon and its health')
+# MAIN METHOD RETURNING A SCATTER PLOT DEPENDS ON THE X AND Y VALUE
+makeScatter <- function(x.value, y.value) {
+  x.value <- paste0('~', xvalue)
+  y.value <- paste0('~', yvalue)
+  
+  # making scatter plot for plotly
+  scatter <- plot_ly(merged.data, x =  eval(parse(text = x.value)), y =  eval(parse(text = x.value)), color =  eval(parse(text = x.value)),
+                     size =  eval(parse(text = x.value))) %>%
+    layout(title = 'Correlation between the weight of the pokemon and its health')
+}
 
 ##################################################################################
 
 ### HISTOGRAM ###
 
-# getting the data for the histogram
-histo.data <- merged.data %>% 
-  group_by(height)
-
-# making a histogram using plotly 
-histogram <- plot_ly(histo.data, x = ~height, type = "histogram", color = '#E45051') %>%
-  layout(title = 'Height Distribution',
-        xaxis = list(title = 'Heigh (feet)'),
-        yaxis = list(title = 'Number of Pokemons')) 
+# MAIN METHOD MAKING A HISTOGRAM DEPENDS ON THE X VALUE
+makeHisto <- function(x.value) {
+  x.var <- paste0('~', x.value)
+  
+  histo.data <- merged.data %>% 
+    group_by_(x.value)
+  
+  # making a histogram using plotly 
+  histogram <- plot_ly(histo.data, x = eval(parse(text = x.var)), type = "histogram", color = '#E45051') %>%
+    layout(title = 'Height Distribution',
+          xaxis = list(title = 'Heigh (feet)'),
+          yaxis = list(title = 'Number of Pokemons')) 
+  
+  return(histogram)
+}
 
