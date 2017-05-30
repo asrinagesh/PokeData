@@ -4,9 +4,10 @@ library(httr)
 library(dplyr)
 library(plotly)
 library(RColorBrewer)
-
-setwd('C:/Users/Tu/Desktop/Sophomore Year/Spring/INFO 201/PokeData/assets/scripts')
 source('./ApiTools.R')
+
+# Tu
+# setwd('C:/Users/Tu/Desktop/Sophomore Year/Spring/INFO 201/PokeData/assets/scripts')
 
 # Read in Data
 data.gen1 <- read.csv(file = '../data/gen1data.csv', stringsAsFactors = FALSE)
@@ -17,11 +18,7 @@ data.gen5 <- read.csv(file = '../data/gen5data.csv', stringsAsFactors = FALSE)
 data.gen6 <- read.csv(file = '../data/gen6data.csv', stringsAsFactors = FALSE)
 data.stats <- read.csv(file = '../data/type_averages.csv', stringsAsFactors = FALSE)
 
-### Popular Types Bar Graph ### 
-
-# For all Pokemons
-all.pokemons <- rbind(data.gen1, data.gen2, data.gen3, data.gen4, data.gen5, data.gen6)
-
+# making a margin for graphs
 m <- list(
   l = 200,
   r = 50,
@@ -29,21 +26,27 @@ m <- list(
   t = 100,
   pad = 4
 )
+### BAR GRAPHS OF POKEMON TYPES ### 
 
+# color for graphs for gen 1
 color.pokemons.without.dark <- c('#208000', '#ffff99', '#ffff1a', '#ff66ff', '#660000', '#e60000', '#d9d9d9', '#290066', 
                     '#40ff00', '#cc9900', '#b3fff0', '#ffe6cc', '#8000ff', '#db4dff', '#996633', '#ccccff',
                     '#0099ff')
 
+# color for graphs for gen 2 and forward (with the introduction of dark type)
 color.pokemons.with.dark <- c('#208000', 'black', '#ffff99', '#ffff1a', '#ff66ff', '#660000', '#e60000', '#d9d9d9', '#290066', 
                               '#40ff00', '#cc9900', '#b3fff0', '#ffe6cc', '#8000ff', '#db4dff', '#996633', '#ccccff',
                               '#0099ff')
-color.pokemons <- NULL
 
+# take in input generation and return the number of pokemons per type of that generation
 makePopularData <- function(gen) {
+  
+  # setting up some variables
   id.first <- 0
   gen.number <- 0
   data.gen <- NULL
   
+  # changing the data depends on the generation
   if (gen == 1) {
     id.first <- 1
     gen.number <- c(2:151)
@@ -70,12 +73,16 @@ makePopularData <- function(gen) {
     data.gen <- data.gen6
   }
   
+  # setting the data starting with the first pokemon
   pokemon.df.gen <- data.gen %>% 
     filter(id == id.first) %>%
     group_by(Primary.Type) %>%
     summarise(count = n()) 
   
+  # getting the count for each type for the rest of the pokemon of that generation
   getTypes <- function(number) {
+    
+    # getting the type of the pokemon with the current id
     new.pokemon.df <- data.gen %>%
       filter(id == number) %>%
       group_by(Primary.Type) %>%
@@ -91,13 +98,14 @@ makePopularData <- function(gen) {
     pokemon.df.gen <<- total # the << to break the scope and to access value in lapply
   }
   
+  # getting the complete dataset by applying each pokemon to the function 
   lapply(gen.number, getTypes)
   
   
   return(pokemon.df.gen)
 }
 
-# Getting the popular types for each generation
+# Getting the data popular types for each generation
 pokemon.df.gen1 <- makePopularData(1) 
 pokemon.df.gen2 <- makePopularData(2)
 pokemon.df.gen3 <- makePopularData(3)
@@ -105,15 +113,18 @@ pokemon.df.gen4 <- makePopularData(4)
 pokemon.df.gen5 <- makePopularData(5)
 pokemon.df.gen6 <- makePopularData(6)
 
+# take in the data of the number of pokemon per type and return a bar chart
 makeBarPopular <- function(pokemon.df.gen) {
   color.pokemons <- NULL
   
+  # changing the color depends on whether the generation has dark type
   if (nrow(pokemon.df.gen) == 17) {
     color.pokemons <- color.pokemons.without.dark
   } else {
     color.pokemons <- color.pokemons.with.dark
   }
   
+  # making a plotly bar chart
   popular.bar.gen <- plot_ly(pokemon.df.gen,
                              x = ~Primary.Type,
                              y = ~count,
@@ -135,8 +146,11 @@ popular.bar4 <- makeBarPopular(pokemon.df.gen4)
 popular.bar5 <- makeBarPopular(pokemon.df.gen5)
 popular.bar6 <- makeBarPopular(pokemon.df.gen6)
 
+########################################################################################################
+
 ## STACKED BAR CHART ##
-# Making a stacked bar chart
+
+# Making a stacked bar chart of number of pokemon per type of each generation stacks on one another
 stacked.bar <- plot_ly(pokemon.df.gen1, x = ~Primary.Type, y = ~count, type = 'bar', name = 'Gen 1', opacity = 0.8) %>%
   add_trace(pokemon.df.gen2, x = ~Primary.Type, y = ~count, name = 'Gen 2', opacity = 0.8) %>% 
   add_trace(pokemon.df.gen3, x = ~Primary.Type, y = ~count, name = 'Gen 3', opacity = 0.8) %>% 
@@ -147,11 +161,12 @@ stacked.bar <- plot_ly(pokemon.df.gen1, x = ~Primary.Type, y = ~count, type = 'b
          xaxis = list(title = 'Types'),
          yaxis = list(title = 'Number of Pokemons'), barmode = 'stack' , margin = m) 
 
-####################################################################
+########################################################################################################
 
 ### STATS BAR ##
 
 # with widget input can select what stats they want to show (avg.speed, overall, etc.)
+# a bar graph showing the type with the highest stats 
 stats.bar <- plot_ly(data.stats,
                      x = ~Primary.Type,
                      y = ~avg.all,
@@ -164,9 +179,12 @@ stats.bar <- plot_ly(data.stats,
              yaxis = list(title = 'Highest Stats'),
              margin = m) 
 
-####################################################################
+#################################################################################################################
 
-### Line Graph ### 
+### LINE GRAPH ### 
+
+# Finding the mean stats data for each generation
+
 data.gen1 <- data.gen1 %>% mutate(avg.stats = (Special.Defense + Speed + Health + Special.Attack + Attack + Defense) / 6)
 avg.stats.gen1 <- data.gen1 %>% 
   summarise(mean = mean(avg.stats)) 
@@ -200,13 +218,17 @@ line.graph <- plot_ly(avg.stats, x = ~generations, y = ~mean, type = 'scatter', 
              xaxis = list(title = 'Generation'),
              yaxis = list(title = 'Overall Stats')) 
 
-########################################################################
+############################################################################################################
 
 ### PIE CHART ###
+
 colors.df <- read.csv(file = '../data/color.csv', stringsAsFactors = FALSE)
+
+# setting the colors
 colors <- c('black', 'blue', 'brown', 'gray', 'green', 'pink', 'purple', 'red', 'white', 'yellow')
 colors.text <- c('white', 'white', 'white', 'white', 'white', 'black', 'white', 'white', 'black', 'black')
 
+# making the pie chart through plotly
 pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
              textposition = 'inside',
              textinfo = 'label+percent',
@@ -225,6 +247,9 @@ pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
 
 ### SCATTER PLOT ### 
 
+# Data for all Pokemons
+all.pokemons <- rbind(data.gen1, data.gen2, data.gen3, data.gen4, data.gen5, data.gen6)
+
 wh.df <- read.csv(file = '../data/weight_and_height.csv', stringsAsFactors = FALSE)
 
 # Merged data between stats and weight/height
@@ -238,6 +263,7 @@ merged.data$weight <- as.numeric(merged.data$weight)
 merged.data$height <- lapply(merged.data$height, ConvHeight)
 merged.data$height <- as.numeric(merged.data$height)
 
+# making scatter plot for plotly
 scatter <- plot_ly(merged.data, x = ~weight, y = ~Health, color = ~weight,
                    size = ~weight) %>%
   layout(title = 'Correlation between the weight of the pokemon and its health')
@@ -246,9 +272,11 @@ scatter <- plot_ly(merged.data, x = ~weight, y = ~Health, color = ~weight,
 
 ### HISTOGRAM ###
 
+# getting the data for the histogram
 histo.data <- merged.data %>% 
   group_by(height)
 
+# making a histogram using plotly 
 histogram <- plot_ly(histo.data, x = ~height, type = "histogram", color = '#E45051') %>%
   layout(title = 'Height Distribution',
         xaxis = list(title = 'Heigh (feet)'),
