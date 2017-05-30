@@ -11,15 +11,20 @@
   <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-
 <body>
+  <div id="facts_overlay" onclick="off()">
+    <!-- Other charts and explnation goes here -->
+    Dummy text
+  </div>
   <div id="pokedex">
   <div id="left">
-    <div id="logo"></div>
-    <div id="bg_curve1_left"></div>
+    <div id="bg_curve1_left">
+        <div id="info_button">
+            <button onclick="on()">Get More Stats!</button>
+        </div>
+    </div>
     <div id="bg_curve2_left">
                 <div id="search_bar">
-<!--                  <input id="pokemon" type="text" class="form-control" autocomplete="off" value="Pikachu"/>-->
                 <span class="input input--chisato">
 					<input id="pokemon" list="pokenames" class="input__field input__field--chisato" type="text" onfocusout="this.value = '';"/>
 					<label class="input__label input__label--chisato" for="input-13">
@@ -84,5 +89,15 @@
     </div>
   </div>
 </div>
+    
+<script>
+    function on() {
+        document.getElementById("facts_overlay").style.display = "block";
+    }
+
+    function off() {
+        document.getElementById("facts_overlay").style.display = "none";
+    }
+</script>
 </body>
 </html>
