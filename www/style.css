@@ -60,8 +60,28 @@ body {
 		height: calc(500*1.7px);
 		float: left;
 		position: relative;
+	  font-family: "PokeGB";
+	  font-size: 10px;
+	  text-align: center;
 	}
 
+  #evo_chain > span > img {
+    border-style: solid;
+    border-color: #494949;
+    border-width: 2px;
+    border-radius: 48px;
+    /*background-color: #ffc4bc; /*#B0B0B0; */
+    background-image: linear-gradient(
+      to bottom,
+      #ffc4bc,
+      #ffc4bc 50%,
+      #FFFFFF 50%
+    );
+  }
+  
+  #evo_chain > div {
+    padding: 10px;
+  }
 
 
 	/* //// LEFT PART //// */
@@ -446,7 +466,7 @@ body {
     div#location_name
     {
         text-align: center;
-        font-family: PokeGB;
+        font-family: "PokeGB";
         font-size: calc(6*1.7px);
         margin-top: calc(6*1.7px);
     }

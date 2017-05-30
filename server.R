@@ -187,56 +187,58 @@ shinyServer(function(input, output) {
   })
   
   # reactively update images
-  observe({
-    # type images
-    output$types <- renderUI({
-      pokemon.query <- pokemon.query()
-      if(!is.null(pokemon.query$id)){
-        # grab types
-        types <- pokemon.query$types$type$name
-        types <- sort(types)
-        
-        # make div tags
-        output.list <- lapply(1:length(types), function(i) {
-          imageOutput(types[i], height = 16, width = 48, inline = TRUE)
-        })
-        
-        # make img tags
-        lapply(1:length(types), function(i) {
-          output[[types[i]]] <- renderImage({
-            list(src = paste0("./www/assets/imgs/types/", types[i], ".png"),
-                 alt = paste(types[i], "type"))
-          }, deleteFile = FALSE)
-        })
-        
-        # update UI
-        do.call(tagList, output.list)
-      }
-    })
-    
-    # evolution chain
-    output$evo_chain <- renderUI({
-      pokemon.query <- pokemon.query()
-      if(!is.null(pokemon.query$id)) {
-        evolution.df <- read.csv(file = "./assets/data/evolution.csv", stringsAsFactors = FALSE)
-        chain.str <- (evolution.df %>% filter(id == pokemon.query$id))$chain
-        chain <- unlist(strsplit(chain.str, split=" "))
+  # type images
+  output$types <- renderUI({
+    pokemon.query <- pokemon.query()
+    if(!is.null(pokemon.query$id)){
+      # grab types
+      types <- pokemon.query$types$type$name
+      types <- sort(types)
+      
+      # make div tags
+      output.list <- lapply(1:length(types), function(i) {
+        imageOutput(types[i], height = 16, width = 48, inline = TRUE)
+      })
+      
+      # make img tags
+      lapply(1:length(types), function(i) {
+        output[[types[i]]] <- renderImage({
+          list(src = paste0("./www/assets/imgs/types/", types[i], ".png"),
+               alt = paste(types[i], "type"))
+        }, deleteFile = FALSE)
+      })
+      
+      # update UI
+      do.call(tagList, output.list)
+    }
+  })
+  
+  # evolution chain
+  output$evo_chain <- renderUI({
+    pokemon.query <- pokemon.query()
+    if(!is.null(pokemon.query$id)) {
+      evolution.df <- read.csv(file = "./assets/data/evolution.csv", stringsAsFactors = FALSE)
+      chain.str <- (evolution.df %>% filter(id == pokemon.query$id))$chain
+      chain <- unlist(strsplit(chain.str, split=" "))
+      
+      # make divs for images
+      output.list <- lapply(1:length(chain), function(i) {
+        imageOutput(chain[i], height = 96, width = 96, inline = TRUE)
+      })
 
-        output.list <- lapply(1:length(chain), function(i) {
-          id <- chain[i]
-          imageOutput(id, height = 96, width = 96, inline = TRUE)
-        })
+      # render the images
+      lapply(1:length(chain), function(i) {
+        output[[chain[i]]] <- renderImage({
+          list(src = paste0("./www/assets/imgs/sprites/", getPokemonID(chain[i]), ".png"),
+               alt = chain[i])
+        }, deleteFile = FALSE)
+      })
+      
+      # add the names
+      output.list[[length(output.list) + 1]] <- div(paste(capitalize(chain), collapse = ", "))
 
-        lapply(1:length(chain), function(i) {
-          output[[chain[i]]] <- renderImage({
-            list(src = paste0("./www/assets/imgs/sprites/", getPokemonID(chain[i]), ".png"),
-                 alt = chain[i])
-          }, deleteFile = FALSE)
-        })
-
-        do.call(tagList, output.list)
-      }
-    })
+      do.call(tagList, output.list)
+    }
   })
   
   # creates the drop down dynamically from 
