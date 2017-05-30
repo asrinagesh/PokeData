@@ -186,6 +186,7 @@ makeStats <- function(stats) {
                xaxis = list(title = 'Types'),
                yaxis = list(title = 'Highest Stats'),
                margin = m) 
+  return(stats.bar)
 }
 
 #################################################################################################################
@@ -194,38 +195,40 @@ makeStats <- function(stats) {
 
 # Finding the mean stats data for each generation
 
+# Average overall stats
 data.gen1 <- data.gen1 %>% mutate(avg.stats = (Special.Defense + Speed + Health + Special.Attack + Attack + Defense) / 6)
-avg.stats.gen1 <- data.gen1 %>% 
-  summarise(mean = mean(avg.stats)) 
-
 data.gen2 <- data.gen2 %>% mutate(avg.stats = (Special.Defense + Speed + Health + Special.Attack + Attack + Defense) / 6)
-avg.stats.gen2 <- data.gen2 %>% 
-  summarise(mean = mean(avg.stats)) 
-
 data.gen3 <- data.gen3 %>% mutate(avg.stats = (Special.Defense + Speed + Health + Special.Attack + Attack + Defense) / 6)
-avg.stats.gen3 <- data.gen3 %>% 
-  summarise(mean = mean(avg.stats)) 
-
 data.gen4 <- data.gen4 %>% mutate(avg.stats = (Special.Defense + Speed + Health + Special.Attack + Attack + Defense) / 6)
-avg.stats.gen4 <- data.gen4 %>% 
-  summarise(mean = mean(avg.stats)) 
-
 data.gen5 <- data.gen5 %>% mutate(avg.stats = (Special.Defense + Speed + Health + Special.Attack + Attack + Defense) / 6)
-avg.stats.gen5 <- data.gen5 %>% 
-  summarise(mean = mean(avg.stats)) 
-
 data.gen6 <- data.gen6 %>% mutate(avg.stats = (Special.Defense + Speed + Health + Special.Attack + Attack + Defense) / 6)
-avg.stats.gen6 <- data.gen6 %>% 
-  summarise(mean = mean(avg.stats)) 
 
-avg.stats <- rbind(avg.stats.gen1, avg.stats.gen2, avg.stats.gen3, avg.stats.gen4, avg.stats.gen5, avg.stats.gen6)
-generations <- c("1st Gen", "2nd Gen", "3rd Gen", "4th Gen", "5th Gen", "6th Gen")
-avg.stats$generations <- generations
-
-line.graph <- plot_ly(avg.stats, x = ~generations, y = ~mean, type = 'scatter', mode = 'lines+markers') %>%
-  layout(title = 'Overall stats change over each generation',
-             xaxis = list(title = 'Generation'),
-             yaxis = list(title = 'Overall Stats')) 
+# Make a line graph based on the value (make sure name input matches the column names)
+makeLine <- function(value) {
+  
+  # getting the data to plot
+  avg.stats.gen1 <- data.gen1 %>% 
+    summarise_(mean = mean(value)) 
+  avg.stats.gen2 <- data.gen2 %>% 
+    summarise_(mean = mean(value)) 
+  avg.stats.gen3 <- data.gen3 %>% 
+    summarise_(mean = mean(value)) 
+  avg.stats.gen4 <- data.gen4 %>% 
+    summarise_(mean = mean(value)) 
+  avg.stats.gen5 <- data.gen5 %>% 
+    summarise_(mean = mean(value)) 
+  avg.stats.gen6 <- data.gen6 %>% 
+    summarise_(mean = mean(value)) 
+  
+  avg.stats <- rbind(avg.stats.gen1, avg.stats.gen2, avg.stats.gen3, avg.stats.gen4, avg.stats.gen5, avg.stats.gen6)
+  generations <- c("1st Gen", "2nd Gen", "3rd Gen", "4th Gen", "5th Gen", "6th Gen")
+  avg.stats$generations <- generations
+  
+  line.graph <- plot_ly(avg.stats, x = ~generations, y = ~mean, type = 'scatter', mode = 'lines+markers') %>%
+    layout(title = 'Overall stats change over each generation',
+               xaxis = list(title = 'Generation'),
+               yaxis = list(title = 'Overall Stats')) 
+}
 
 ############################################################################################################
 
@@ -238,20 +241,23 @@ colors <- c('black', 'blue', 'brown', 'gray', 'green', 'pink', 'purple', 'red', 
 colors.text <- c('white', 'white', 'white', 'white', 'white', 'black', 'white', 'white', 'black', 'black')
 
 # making the pie chart through plotly
-pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
-             textposition = 'inside',
-             textinfo = 'label+percent',
-             insidetextfont = list(color = colors.text),
-             hoverinfo = 'text',
-             text = ~paste(count, 'pokemons'),
-             marker = list(colors = colors,
-                           line = list(color = 'black', width = 1)),
-             #The 'pull' attribute can also be used to create space between the sectors
-             showlegend = FALSE,
-             opacity = 0.8) %>%
-  layout(title = 'Colors of Pokemons',
-         xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-         yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+makePie <- function() {
+  pie <- plot_ly(colors.df, labels = ~color, values = ~count, type = 'pie',
+               textposition = 'inside',
+               textinfo = 'label+percent',
+               insidetextfont = list(color = colors.text),
+               hoverinfo = 'text',
+               text = ~paste(count, 'pokemons'),
+               marker = list(colors = colors,
+                             line = list(color = 'black', width = 1)),
+               #The 'pull' attribute can also be used to create space between the sectors
+               showlegend = FALSE,
+               opacity = 0.8) %>%
+    layout(title = 'Colors of Pokemons',
+           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
+           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+  return(pie)
+}
 
 #######################################################################################
 
@@ -281,6 +287,8 @@ makeScatter <- function(x.value, y.value) {
   scatter <- plot_ly(merged.data, x =  eval(parse(text = x.value)), y =  eval(parse(text = x.value)), color =  eval(parse(text = x.value)),
                      size =  eval(parse(text = x.value))) %>%
     layout(title = 'Correlation between the weight of the pokemon and its health')
+  
+  return(scatter)
 }
 
 ##################################################################################
