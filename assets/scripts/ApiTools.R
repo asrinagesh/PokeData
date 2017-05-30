@@ -1,12 +1,14 @@
+
+# -- ApiTools.R --------------------------------#
+#                                               #
+# Utility script with some functions to assist  #
+# in querying the PokeApi                       #
+#                                               #
+# ----------------------------------------------#
+
 library(measurements)
 library(httr)
 library(jsonlite)
-
-# 
-# Utility script with some functions to assist 
-# in querying the PokeApi
-# 
-# --------------------------------------------
 
 # base uri for api querys
 base.uri <- "http://pokeapi.co/api/v2/"
@@ -17,7 +19,7 @@ username_TTS <-"dc9068ce-7600-4e59-bf70-03a4679d3f8c" # you need your own - STT 
 password_TTS <- "qou3eLqrL4zT"  # you need your own - STT service credentials from bluemix
 username_password_TTS = paste(username_TTS,":",password_TTS,sep="")
 
-# Text to speech function - TODO document
+# Text to speech function
 watson.TTS.execute <- function(text1,voice1,filename1) {
   api.link=url <- "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
   the_audio = CFILE(filename1, mode="wb") 
@@ -29,7 +31,7 @@ watson.TTS.execute <- function(text1,voice1,filename1) {
   system(paste("open",filename1,"-a vlc"))
 }
 
-# Text to speech function - TODO document
+# Text to speech function
 watson.TTS.listvoices <- function() {
   voices <- GET(url=paste("https://stream.watsonplatform.net/text-to-speech/api/v1/voices"),authenticate(username_TTS,password_TTS))
   data <- content(voices,"text")
@@ -107,10 +109,12 @@ getEvolutionChain <- function(pokemon.query) {
   return(chain)
 }
 
+# converts a chain of pokemon to a chain of IDs
 convertChainToIDs <- function(chain) {
   return(sapply(chain, getPokemonID))
 }
 
+# gets a data frame with a single row with evo chain data
 getEvolutionChainDF <- function(id) {
   pokemon.query <- QueryApi(paste0("pokemon/", id))
   
@@ -124,6 +128,7 @@ getEvolutionChainDF <- function(id) {
   return(data.frame(id, name, chain, stringsAsFactors = FALSE))
 }
 
+# saves evolution chain dataframes
 writeChainDF <- function() {
   one <- lapply(1:100, getEvolutionChainDF)
   one.df <- do.call(rbind, one)

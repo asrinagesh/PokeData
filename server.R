@@ -1,3 +1,12 @@
+
+# -- server.R ----------------------------------------------#
+#                                                           #
+# Script that is the backbone of the shiny application      #
+# It links to index.html in order to render UI components   #
+# and return information to be displayed on the website     #
+#                                                           #
+# ----------------------------------------------------------#
+
 library(shiny)
 suppressPackageStartupMessages(library(dplyr))
 library(scales)
@@ -10,19 +19,28 @@ source("./assets/scripts/ggradar.R")
 source("./assets/scripts/ApiTools.R")
 source("./assets/scripts/GenerationAverages.R")
 
-# Charlie
-# setwd("~/Documents/School/INFO201/PokeData/")
+# -- Working Directories -------------------------------------------------#
+#                                                                         #
+# Charlie                                                                 #
+# setwd("~/Documents/School/INFO201/PokeData/")                           #
+#                                                                         #
+# Akash                                                                   #
+# setwd("~/Work/School/INFO201/PokeData/")                                #
+#                                                                         #
+# Tu                                                                      #
+# setwd('C:/Users/Tu/Desktop/Sophomore Year/Spring/INFO 201/PokeData/')   #
+#                                                                         #
+# ------------------------------------------------------------------------#
 
-# Akash
-# setwd("~/Work/School/INFO201/PokeData/")
-
-# Tu
-# setwd('C:/Users/Tu/Desktop/Sophomore Year/Spring/INFO 201/PokeData/')
-
-# Define server logic required to draw a histogram
+# Define server logic that recieves input and modifies an output
 shinyServer(function(input, output) {
   
-  # Querys the api for the pokemon's data
+  # -- DATA HANDLING -------------------------------------------------------------------------------------
+  
+  # Querys the api for the pokemon's data,
+  # reactively wrapped in its own function to avoid 
+  # querying the API multiple times for each 
+  # component that needs it
   pokemon.query <- reactive({
     if(input$pokemon == "") {
       pokemon.query <- NULL
@@ -31,10 +49,43 @@ shinyServer(function(input, output) {
     }
   })
   
+  # Creates the drop down dynamically from the
+  # saved csv file of all pokemon names
+  output$pokenames_div <- renderUI({
+    pokenames <- read.csv(file = "./assets/data/pokenames.csv", stringsAsFactors = FALSE)
+    tags$datalist(id = "pokenames", lapply(1:nrow(pokenames), function(i) {
+      tags$option(pokenames$name[i])}))
+  })
+  
+  # -- OUTPUT RENDERING ----------------------------------------------------------------------------------
+  
+  # Renders the Sprite of the desired pokemon, or an error image
+  # if the given pokemon is not found
+  output$image <- renderImage({
+    pokemon.query <- pokemon.query()
+    
+    # if valid pokemon, show sprite, else show error
+    if(is.null(pokemon.query$id)){
+      image <- "error"
+    } else {
+      image <- pokemon.query$id
+    }
+    
+    # grab and return file
+    filename <- normalizePath(file.path('./www/assets/imgs/sprites/', paste0(image, '.png')))
+    list(src = filename,
+         width = 187,
+         height = 187,
+         alt = paste("Sprite", pokemon.query$id))
+    
+  }, deleteFile = FALSE)
+  
   # Prints out basic information about this pokemon, such as
   # its numerial ID, name, base XP, height, weight, and types
   output$pokedata <- renderPrint({
     pokemon.query <- pokemon.query()
+    
+    # if valid pokemon, show info about it, else show error
     if(is.null(pokemon.query$id)) {
       cat("Pokemon not found. Please try again")
     } else {
@@ -47,8 +98,9 @@ shinyServer(function(input, output) {
       cat(paste0("Type(s): \n"))
 
       # text to speech
-      pokeinfo.text <- paste0("This is ",capitalize(pokemon.query$name), ". The ", (pokemon.query$types$type$name), " type poki-mon. It is from generation ",
-                              GetGenOfPokemon(pokemon.query$id), ". It is ", ConvHeight(pokemon.query$height), " feet tall and weighs ",
+      pokeinfo.text <- paste0("This is ",capitalize(pokemon.query$name), ". The ", (pokemon.query$types$type$name), 
+                              " type poki-mon. It is from generation ", GetGenOfPokemon(pokemon.query$id), ". It is ",
+                              ConvHeight(pokemon.query$height), " feet tall and weighs ",
                               ConvWeight(pokemon.query$weight), " pounds.")
       text <- URLencode(pokeinfo.text)
       voices <- watson.TTS.listvoices()
@@ -58,21 +110,29 @@ shinyServer(function(input, output) {
     }
   })
   
-  # Renders text for location pokemon can be found in
-  output$location_name <- renderPrint({
+  # Dynamically renders the type images
+  output$types <- renderUI({
     pokemon.query <- pokemon.query()
-    location.names <- read.csv(file = "./assets/data/pokemon_to_route_name.csv", stringsAsFactors = FALSE)
-    location.names <- location.names[!(duplicated(location.names$poke_id)), ]
-    if(!is.null(pokemon.query$id)) {
-      pokemon.name <- capitalize(pokemon.query$name)
-      location.title <- location.names %>% filter(poke_id == pokemon.name) %>% select(location_name)
-      cat(pokemon.name)
-      # Checks num rows for greater than one to indicate that Pokemon has a location
-      if (nrow(location.title) == 1) {
-        cat(paste(" can be found in: ", location.title))
-      } else {
-        cat(paste(" cannot be found naturally."))
-      }
+    if(!is.null(pokemon.query$id)){
+      # grab types
+      types <- pokemon.query$types$type$name
+      types <- sort(types)
+      
+      # make div tags
+      output.list <- lapply(1:length(types), function(i) {
+        imageOutput(types[i], height = 16, width = 48, inline = TRUE)
+      })
+      
+      # make img tags
+      lapply(1:length(types), function(i) {
+        output[[types[i]]] <- renderImage({
+          list(src = paste0("./www/assets/imgs/types/", types[i], ".png"),
+               alt = paste(types[i], "type"))
+        }, deleteFile = FALSE)
+      })
+      
+      # update UI
+      do.call(tagList, output.list)
     }
   })
   
@@ -86,8 +146,8 @@ shinyServer(function(input, output) {
       stat.df <- data.frame(pokemon.query$stats$stat$name, pokemon.query$stats$base_stat)
       stat.df <- stat.df %>% rename("Stat" = pokemon.query.stats.stat.name, "Value" = pokemon.query.stats.base_stat)
       
-      # organize the stats in a way that works for ggplot (flipping the way
-      # the api returns them essentially)
+      # organize the stats in a way that works for ggplot (essentially 
+      # flipping the way the api returns them )
       speed <- stat.df %>% filter(Stat == "speed")
       spd <- stat.df %>% filter(Stat == "special-defense")
       hp <- stat.df %>% filter(Stat == "hp")
@@ -131,28 +191,14 @@ shinyServer(function(input, output) {
       names(colors) <- binded.df$Pokemon # necessary to preserve order of colors
       
       # use external script to plot the data
-      ggradar(binded.df, values.radar = c(0, max.stat/2, max.stat), color.vector = colors)
+      # I modified the ggradar script a lot to make it work with this project
+      # so thats why it is saved as a separate script as opposed to just
+      # importing the library 
+      ggradar(binded.df, font.radar = "PokemonGB", 
+              values.radar = c(0, max.stat/2, max.stat), color.vector = colors,
+              legend.text.size=10, grid.label.size=6, axis.label.size=4)
     }
   })
-  
-  # Renders the Sprite of the desired pokemon, or an error image
-  # if the given pokemon is not found
-  output$image <- renderImage({
-    pokemon.query <- pokemon.query()
-    if(is.null(pokemon.query$id)){
-      image <- "error"
-    } else {
-      image <- pokemon.query$id
-    }
-    
-    filename <- normalizePath(file.path('./www/assets/imgs/sprites/', paste0(image, '.png')))
-    
-    list(src = filename,
-         width = 187,
-         height = 187,
-         alt = paste("Sprite", pokemon.query$id))
-    
-  }, deleteFile = FALSE)
   
   # Renders an animated gif of a random route this pokemon is found on,
   # or an error pokemon invalid or not caught through conventional means
@@ -179,6 +225,7 @@ shinyServer(function(input, output) {
          alt = paste("Location", pokemon.query$id))
   }, deleteFile = FALSE)
   
+  # Renders the text for the evolution chain title
   output$evo_text <- renderPrint({
     pokemon.query <- pokemon.query()
     if(!is.null(pokemon.query$id)){
@@ -186,34 +233,25 @@ shinyServer(function(input, output) {
     }
   })
   
-  # reactively update images
-  # type images
-  output$types <- renderUI({
+  # Renders text for location pokemon can be found in
+  output$location_name <- renderPrint({
     pokemon.query <- pokemon.query()
-    if(!is.null(pokemon.query$id)){
-      # grab types
-      types <- pokemon.query$types$type$name
-      types <- sort(types)
-      
-      # make div tags
-      output.list <- lapply(1:length(types), function(i) {
-        imageOutput(types[i], height = 16, width = 48, inline = TRUE)
-      })
-      
-      # make img tags
-      lapply(1:length(types), function(i) {
-        output[[types[i]]] <- renderImage({
-          list(src = paste0("./www/assets/imgs/types/", types[i], ".png"),
-               alt = paste(types[i], "type"))
-        }, deleteFile = FALSE)
-      })
-      
-      # update UI
-      do.call(tagList, output.list)
+    if(!is.null(pokemon.query$id)) {
+      location.names <- read.csv(file = "./assets/data/pokemon_to_route_name.csv", stringsAsFactors = FALSE)
+      location.names <- location.names[!(duplicated(location.names$poke_id)), ]
+      pokemon.name <- capitalize(pokemon.query$name)
+      location.title <- location.names %>% filter(poke_id == pokemon.name) %>% select(location_name)
+      cat(pokemon.name)
+      # Checks num rows for greater than one to indicate that Pokemon has a location
+      if (nrow(location.title) == 1) {
+        cat(paste(" can be found in: ", location.title))
+      } else {
+        cat(paste(" cannot be found naturally."))
+      }
     }
   })
   
-  # evolution chain
+  # Dynamically renders evolution chain images and text
   output$evo_chain <- renderUI({
     pokemon.query <- pokemon.query()
     if(!is.null(pokemon.query$id)) {
@@ -234,18 +272,11 @@ shinyServer(function(input, output) {
         }, deleteFile = FALSE)
       })
       
-      # add the names
+      # add the names of the evolution chain
       output.list[[length(output.list) + 1]] <- div(paste(capitalize(chain), collapse = ", "))
 
+      # update UI
       do.call(tagList, output.list)
     }
   })
-  
-  # creates the drop down dynamically from 
-  output$pokenames_div <- renderUI({
-    pokenames <- read.csv(file = "./assets/data/pokenames.csv", stringsAsFactors = FALSE)
-    tags$datalist(id = "pokenames", lapply(1:nrow(pokenames), function(i) {
-                                      tags$option(pokenames$name[i])}))
-  })
-  
 })

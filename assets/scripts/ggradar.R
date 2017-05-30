@@ -4,7 +4,11 @@
 #'
 #' @export
 # most of the code is from http://rstudio-pubs-static.s3.amazonaws.com/5795_e6e6411731bb4f1b9cc7eb49499c2082.html
-
+# 
+# Note by Charlie -------
+# script taken from https://github.com/ricardo-bion/ggradar
+# I saved the script as a file rather than importing the library since there were some
+# key functionalities I needed to change that weren't accessible as parameters
 
 ggradar <- function(plot.data,
                     font.radar="PokemonGB",

@@ -1,3 +1,12 @@
+
+# -- GenerationAverages.R ----------------------#
+#                                               #
+# Utility script for calculating, manipulating, #
+# and saving data about pokemon and entire      #
+# generations.                                  #
+#                                               #
+# ----------------------------------------------#
+
 gen.1 <- 1:151
 gen.2 <- 152:251
 gen.3 <- 252:386
@@ -26,6 +35,7 @@ GetGenOfPokemon <- function(id) {
   }
 }
 
+# gets stat data for a single pokemon
 GetDataForPokemon <- function(id) {
   pokemon.df <- QueryApi(paste0("pokemon/", id))
   
@@ -35,7 +45,7 @@ GetDataForPokemon <- function(id) {
   type <- pokemon.df$types$type$name
   gen <- GetGenOfPokemon(id)
   
-  #stats
+  # flipping arrangement of stats since API returns them in a strange format
   stat.df <- data.frame(pokemon.df$stats$stat$name, pokemon.df$stats$base_stat)
   stat.df <- stat.df %>% rename("Stat" = pokemon.df.stats.stat.name, "Value" = pokemon.df.stats.base_stat)
   speed <- stat.df %>% filter(Stat == "speed")
@@ -51,6 +61,7 @@ GetDataForPokemon <- function(id) {
                     "Special Attack" = spa$Value, "Attack" = attack$Value, "Defense" = defense$Value, check.names = TRUE))
 }
 
+# gets height and weight for a single pokemon
 GetWeightAndHeight <- function(id) {
   pokemon.df <- QueryApi(paste0("pokemon/", id))
   id <- pokemon.df$id
@@ -63,6 +74,7 @@ GetWeightAndHeight <- function(id) {
   return(df)
 }
 
+# writes height and weight data
 writeWHData <- function() {
   data.list <- lapply(all.pokes, GetWeightAndHeight)
   data.df <- do.call(rbind, data.list)
