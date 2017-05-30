@@ -1,7 +1,7 @@
 
 # -- server.R ----------------------------------------------#
 #                                                           #
-# Script that is the backbone of the shiny application      #
+# Script that is the backbone of the shiny application,     #
 # It links to index.html in order to render UI components   #
 # and return information to be displayed on the website     #
 #                                                           #
