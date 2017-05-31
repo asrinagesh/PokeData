@@ -59,6 +59,10 @@ shinyServer(function(input, output) {
   
   # -- OUTPUT RENDERING ----------------------------------------------------------------------------------
   
+  output$stacked_bar <- renderPlotly({
+    return(makeStacked())
+  })
+  
   # Renders the Sprite of the desired pokemon, or an error image
   # if the given pokemon is not found
   output$image <- renderImage({

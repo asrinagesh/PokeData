@@ -26,6 +26,8 @@ m <- list(
   t = 100,
   pad = 4
 )
+
+color.pokemons <- NULL
 ### BAR GRAPHS OF POKEMON TYPES ### 
 
 # color for graphs for gen 1
@@ -107,7 +109,6 @@ makePopularData <- function(gen) {
 
 # take in the data of the number of pokemon per type and return a bar chart
 makeBarPopular <- function(pokemon.df.gen) {
-  color.pokemons <- NULL
   
   # changing the color depends on whether the generation has dark type
   if (nrow(pokemon.df.gen) == 17) {
@@ -180,9 +181,9 @@ makeStats <- function(stats) {
                        y = eval(parse(text = stats)),
                        type = 'bar',
                        color = ~Primary.Type,
-                       colors = ~color.pokemons,
+                       colors = ~color.pokemons.with.dark,
                        opacity = 0.7 
-  ) %>% layout(title = 'Highest Overall Stats',
+  ) %>% layout(title = 'Highest Overall Stats', #paste('Highest Overall', stats), 
                xaxis = list(title = 'Types'),
                yaxis = list(title = 'Highest Stats'),
                margin = m) 
@@ -205,20 +206,20 @@ data.gen6 <- data.gen6 %>% mutate(avg.stats = (Special.Defense + Speed + Health 
 
 # Make a line graph based on the value (make sure name input matches the column names)
 makeLine <- function(value) {
-  
+  value <- paste0('mean(', value, ')')
   # getting the data to plot
   avg.stats.gen1 <- data.gen1 %>% 
-    summarise_(mean = mean(value)) 
+    summarise_(mean = value) 
   avg.stats.gen2 <- data.gen2 %>% 
-    summarise_(mean = mean(value)) 
+    summarise_(mean = value) 
   avg.stats.gen3 <- data.gen3 %>% 
-    summarise_(mean = mean(value)) 
+    summarise_(mean = value) 
   avg.stats.gen4 <- data.gen4 %>% 
-    summarise_(mean = mean(value)) 
+    summarise_(mean = value) 
   avg.stats.gen5 <- data.gen5 %>% 
-    summarise_(mean = mean(value)) 
+    summarise_(mean = value) 
   avg.stats.gen6 <- data.gen6 %>% 
-    summarise_(mean = mean(value)) 
+    summarise_(mean = value) 
   
   avg.stats <- rbind(avg.stats.gen1, avg.stats.gen2, avg.stats.gen3, avg.stats.gen4, avg.stats.gen5, avg.stats.gen6)
   generations <- c("1st Gen", "2nd Gen", "3rd Gen", "4th Gen", "5th Gen", "6th Gen")
@@ -254,8 +255,11 @@ makePie <- function() {
                showlegend = FALSE,
                opacity = 0.8) %>%
     layout(title = 'Colors of Pokemons',
-           xaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE),
-           yaxis = list(showgrid = FALSE, zeroline = FALSE, showticklabels = FALSE))
+           font = list(color = c('black', 'blue', 'white', 'red', 'green', 'orange', 'gray', 'yellow', 'pink', 'purple'),
+                       family = 'sans serif',
+                       size = 14)
+           )
+           
   return(pie)
 }
 
@@ -280,8 +284,8 @@ merged.data$height <- as.numeric(merged.data$height)
 
 # MAIN METHOD RETURNING A SCATTER PLOT DEPENDS ON THE X AND Y VALUE
 makeScatter <- function(x.value, y.value) {
-  x.value <- paste0('~', xvalue)
-  y.value <- paste0('~', yvalue)
+  x.value <- paste0('~', x.value)
+  y.value <- paste0('~', y.value)
   
   # making scatter plot for plotly
   scatter <- plot_ly(merged.data, x =  eval(parse(text = x.value)), y =  eval(parse(text = x.value)), color =  eval(parse(text = x.value)),
