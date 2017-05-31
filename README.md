@@ -7,6 +7,7 @@
 - [Installation](#installation)
 - [Files included in this project](#files-included-in-this-project)
 - [Running the test](#running-the-test)
+- [Description of each graph](#description-of-each-graph)
 - [Team members](#team-members)
 
 # Description 
@@ -80,8 +81,30 @@ pokemon.df <- reactive({
     pokemon.df <- QueryApi(paste0("pokemon/", tolower(pokemon)))    
 })
 ```
+# Description of each graph:
+#### Bar chart:
+The bar chart graphs the number of pokemon for each type. 
+Bar charts are used to show comparisons between categories of data through the length of the bars. One axis will generally consist of numerical values. For example, in this graph, the y axis represents the number of pokemon. The other axis will contain the types of categories being compared, in this case the different types of pokemon.  
+ 
+#### Scatterplot:
+The scatter plot displays the correlation between the weight and health of the pokemon.
+Scatter plots are used to show how much one variable is affected by another. The relationship between two variables is called their correlation. In this scatterplot we are determining how the weight of the pokemon may affect the health of the pokemon. 
+ 
+#### Pie chart:
+The pie chart displays the percentage of pokemon that represents a certain color.
+Pie charts are used to compare parts of a whole and do not show changes over time. For example, in our chart, each pokemon is categorized into a certain group of color, which will never change. 
+ 
+#### Line chart:
+The line chart displays the change in overall stats throughout each pokemon generation. Line charts are used to compare the changes in a dataset over a course of a period.
+ 
+#### Stacked bar chart:
+The stacked bar chart displays the number of pokemon for each type and is categorized by the pokemon generation. Stacked bar chart is used to compare segments of a whole. Each bar in the chart represents a complete whole, and the split sections in the bar represent different categories of that whole. For example, in the displayed stacked bar chart, each bar represents the total number of pokemon for each type. The bar is split by the generation of the pokemon. 
 
- # Team members
+#### Histogram:
+The histogram displays the the number of pokemon with a certain height. 
+Histograms are used to show the frequency distribution (shape) of a continuous data. The six properties of a histogram are: bell-shaped, bimodal, skewed right, skewed left, uniform, and random. The histogram that is displayed in the Pokedex is heavily skewed right since it is positively skewed. In other words, there are a large number of occurrences on the left side and less occurrences on the right side. This occurs because the mean is greater than the median. 
+
+# Team members
 * [Akash Srinagesh](https://github.com/asrinagesh)
 * [Charlie Mihran](https://github.com/cmihran)
 * [Tu Nguyen](https://github.com/nguyet04)
