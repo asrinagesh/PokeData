@@ -6,7 +6,7 @@
 - [Motivation](#motivation)
 - [Installation](#installation)
 - [Files included in this project](#files-included-in-this-project)
-- [Running the test](#running-the-test)
+- [Code snippets](#code-snippets)
 - [Description of each graph](#description-of-each-graph)
 - [Team members](#team-members)
 
@@ -60,21 +60,12 @@ Unfortunately, only 11% of students are able to accurately read and label graphs
  
 
 
-# Running the test
-#### Delivers the information of the Sprite of the desired pokemon. If the input name for the pokemon is not found, an error image appears in the Pokedex
+# Code snippets
+Small bits of code that demonstrate a few challenges tackled within this project
 
- ```
-output$image <- renderImage({
-  pokemon.df <- pokemon.df()
-  if(is.null(pokemon.df$id)){
-    image <- "error"
-  } else {
-    image <- pokemon.df$id
-  }
+#### How do we sanitize user input to the API, and parse errors from the API? 
 ```
-
-#### Queries the pokemon API
-```
+# takes input from the html and querys the api
 pokemon.df <- reactive({
   if(input$pokemon == "") {
     pokemon <- "not found"
@@ -84,6 +75,46 @@ pokemon.df <- reactive({
     pokemon.df <- QueryApi(paste0("pokemon/", tolower(pokemon)))    
 })
 ```
+```
+# querys the pokeAPI using the base uri plus a query, such as "pokemon/pikachu"
+QueryApi <- function(query) {
+  full.uri <- paste0(base.uri, query)
+  response <- GET(full.uri)
+  pokemon.df <- fromJSON(content(response, "text", encoding = "UTF-8"))
+  return(pokemon.df)
+}
+```
+#### How do we dynamically change the number of images that appear on the Pokedex, such as the type images or evolution chain?
+Some Pokemon have 1 type, others have 2; Some Pokemon have no evolutions, some have 2, and some have even more.
+ ```
+# Dynamically renders the type images
+output$types <- renderUI({
+  pokemon.query <- pokemon.query()
+  if(!is.null(pokemon.query$id)){
+    # grab types
+    types <- pokemon.query$types$type$name
+    types <- sort(types)
+    
+    # make div tags
+    output.list <- lapply(1:length(types), function(i) {
+      imageOutput(types[i], height = 16, width = 48, inline = TRUE)
+    })
+    
+    # make img tags
+    lapply(1:length(types), function(i) {
+      output[[types[i]]] <- renderImage({
+        list(src = paste0("./www/assets/imgs/types/", types[i], ".png"),
+             alt = paste(types[i], "type"))
+      }, deleteFile = FALSE)
+    })
+    
+    # update UI
+    do.call(tagList, output.list)
+  }
+})
+```
+
+
 # Description of each graph:
 #### Bar chart:
 The bar chart graphs the number of pokemon for each type. 
