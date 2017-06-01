@@ -10,6 +10,9 @@
 - [Description of each graph](#description-of-each-graph)
 - [Team members](#team-members)
 
+### Compiled Application
+[shinyapps.io link](https://cmihran.shinyapps.io/PokeData/)
+
 # Description 
 A Pokedex visual created with the help of R, HTML, and CSS. Learn all about your favorite pokemon through our amazing pokedex.
 A Pokedex is an electronic device that summarizes and provides information about the different species of Pokemon. The Pokedex provides information about the stats and location of each pokemon. It also displays various graphs (bar graph, pie chart, scatterplot, line graph, histogram, and stacked bar chart) about the pokemon's information, which are used to help our target group to better learn about different graphs.  
