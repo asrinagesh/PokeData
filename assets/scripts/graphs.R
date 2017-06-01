@@ -129,6 +129,7 @@ makeBarPopular <- function(pokemon.df.gen) {
                xaxis = list(title = 'Types'),
                yaxis = list(title = 'Number of Pokemons'),
                margin = m) 
+  return(popular.bar.gen)
 }
 
 # MAIN FUNCTION TAKES IN INPUT AND RETURN THE BAR CHART
@@ -171,10 +172,13 @@ makeStacked <- function() {
 
 # with widget input can select what stats they want to show (avg.speed, overall, etc.)
 # a bar graph showing the type with the highest stats 
+colnames(data.stats) <- c('Primary.Type', 'Special.Defense', 'Speed', 'Health','Special.Attack', 'Attack', 'Defense', 'Overall.Stats')
 
 # taking in name of the stats column and return a bar stats 
 makeStats <- function(stats) {
   stats <- paste0('~', stats)
+  
+  name <- gsub("[[:punct:]]", " ", stats)
   
   stats.bar <- plot_ly(data.stats,
                        x = ~Primary.Type,
@@ -183,9 +187,9 @@ makeStats <- function(stats) {
                        color = ~Primary.Type,
                        colors = ~color.pokemons.with.dark,
                        opacity = 0.7 
-  ) %>% layout(title = 'Highest Overall Stats', #paste('Highest Overall', stats), 
+  ) %>% layout(title = paste0('Type with the highest', name), 
                xaxis = list(title = 'Types'),
-               yaxis = list(title = 'Highest Stats'),
+               yaxis = list(title = paste0('Base', name)),
                margin = m) 
   return(stats.bar)
 }
@@ -225,10 +229,12 @@ makeLine <- function(value) {
   generations <- c("1st Gen", "2nd Gen", "3rd Gen", "4th Gen", "5th Gen", "6th Gen")
   avg.stats$generations <- generations
   
+  name <- gsub("[[:punct:]]", " ", value)
+  
   line.graph <- plot_ly(avg.stats, x = ~generations, y = ~mean, type = 'scatter', mode = 'lines+markers') %>%
-    layout(title = 'Overall stats change over each generation',
+    layout(title = paste0(name, 'stats change over each generation'),
                xaxis = list(title = 'Generation'),
-               yaxis = list(title = 'Overall Stats')) 
+               yaxis = list(title = paste0(name))) 
 }
 
 ############################################################################################################
@@ -288,7 +294,7 @@ makeScatter <- function(x.value, y.value) {
   y.value <- paste0('~', y.value)
   
   # making scatter plot for plotly
-  scatter <- plot_ly(merged.data, x =  eval(parse(text = x.value)), y =  eval(parse(text = x.value)), color =  eval(parse(text = x.value)),
+  scatter <- plot_ly(merged.data, x =  eval(parse(text = x.value)), y =  eval(parse(text = y.value)), color =  eval(parse(text = x.value)),
                      size =  eval(parse(text = x.value))) %>%
     layout(title = 'Correlation between the weight of the pokemon and its health')
   
@@ -302,14 +308,20 @@ makeScatter <- function(x.value, y.value) {
 # MAIN METHOD MAKING A HISTOGRAM DEPENDS ON THE X VALUE
 makeHisto <- function(x.value) {
   x.var <- paste0('~', x.value)
-  
+
   histo.data <- merged.data %>% 
     group_by_(x.value)
   
+  if (x.value == 'avg.stats') {
+    x.value <- 'Average Base Stats'
+  }
+  
+  name <- gsub("[[:punct:]]", " ", x.value)
+  
   # making a histogram using plotly 
   histogram <- plot_ly(histo.data, x = eval(parse(text = x.var)), type = "histogram", color = '#E45051') %>%
-    layout(title = 'Height Distribution',
-          xaxis = list(title = 'Heigh (feet)'),
+    layout(title = paste(name , 'Distribution'),
+          xaxis = list(title = name),
           yaxis = list(title = 'Number of Pokemons')) 
   
   return(histogram)
