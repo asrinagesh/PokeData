@@ -13,39 +13,6 @@ library(jsonlite)
 # base uri for api querys
 base.uri <- "http://pokeapi.co/api/v2/"
 
-# Text to speech - authentication and credentials 
-url_TTS <- "https://stream.watsonplatform.net/text-to-speech/api"
-username_TTS <-"dc9068ce-7600-4e59-bf70-03a4679d3f8c" # you need your own - STT service credentials from bluemix
-password_TTS <- "qou3eLqrL4zT"  # you need your own - STT service credentials from bluemix
-username_password_TTS = paste(username_TTS,":",password_TTS,sep="")
-
-# Text to speech function
-watson.TTS.execute <- function(text1,voice1,filename1) {
-  api.link=url <- "https://stream.watsonplatform.net/text-to-speech/api/v1/synthesize"
-  the_audio = CFILE(filename1, mode="wb") 
-  curlPerform(url = paste(api.link,"?text=",text1,"&voice=",voice1,sep=""),
-              userpwd = username_password_TTS,
-              httpheader=c(accept="audio/wav"),
-              writedata = the_audio@ref)
-  close(the_audio)
-  system(paste("open",filename1,"-a vlc"))
-}
-
-# Text to speech function
-watson.TTS.listvoices <- function() {
-  voices <- GET(url=paste("https://stream.watsonplatform.net/text-to-speech/api/v1/voices"),authenticate(username_TTS,password_TTS))
-  data <- content(voices,"text")
-  data <- as.data.frame(strsplit(as.character(data),"name"))
-  data <- data[-c(1:2), ] # remove dud first row
-  data <- strsplit(as.character(data),",")
-  data <- data.frame(matrix(data))
-  colnames(data) <- "V1"
-  data <- cSplit(data, 'V1', sep="\"", type.convert=FALSE)
-  data <- data.frame(data$V1_04)
-  data[,1]  <- gsub("\\\\","",data[,1] )
-  return(data)
-}
-
 # querys the pokeAPI using the base uri plus a query, such as "pokemon/pikachu"
 QueryApi <- function(query) {
   full.uri <- paste0(base.uri, query)

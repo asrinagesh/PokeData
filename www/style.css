@@ -1,3 +1,15 @@
+/*
+Used this codepen for framework of the css and then modified to our needs
+- https://codepen.io/Bidji/pen/MYdPwo
+    - by: Bidji
+
+Used this api to get all stats about the PokeMon
+- http://pokeapi.co/
+
+Used this crowd-sourced website for the location images/gifs
+- http://bulbapedia.bulbagarden.net/
+*/
+
 * {
 	margin: 0;
 	padding: 0;

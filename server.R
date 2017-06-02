@@ -10,11 +10,6 @@
 library(shiny)
 suppressPackageStartupMessages(library(dplyr))
 library(scales)
-library(RCurl)
-library(audio) 
-library(seewave)
-library(Rtts)
-library(splitstackshape)
 source("./assets/scripts/ggradar.R")
 source("./assets/scripts/ApiTools.R")
 source("./assets/scripts/GenerationAverages.R")
@@ -96,17 +91,6 @@ shinyServer(function(input, output) {
       cat(paste0("Height: ", round(ConvHeight(pokemon.query$height), digits = 1), " ft", "\n"))
       cat(paste0("Weight: ", round(ConvWeight(pokemon.query$weight), digits = 1), " lbs", "\n"))
       cat(paste0("Type(s): \n"))
-
-      # text to speech
-      pokeinfo.text <- paste0("This is ",capitalize(pokemon.query$name), ". The ", (pokemon.query$types$type$name), 
-                              " type poki-mon. It is from generation ", GetGenOfPokemon(pokemon.query$id), ". It is ",
-                              ConvHeight(pokemon.query$height), " feet tall and weighs ",
-                              ConvWeight(pokemon.query$weight), " pounds.")
-      text <- URLencode(pokeinfo.text)
-      voices <- watson.TTS.listvoices()
-      voice <- voices[2,] #
-      filename <- "temp.wav"
-      #watson.TTS.execute(text,voice,filename)
     }
   })
   
